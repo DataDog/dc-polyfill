@@ -5,6 +5,8 @@ if (hasFullSupport()) {
   return
 }
 
+// TODO: everything else
+
 let diagnostics_channel;
 let channel_registry;
 

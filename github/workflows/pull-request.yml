@@ -11,22 +11,22 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - v12.22.12
-          - v14.0.0
-          - v14.16.1
-          - v14.17.0
-          - v15.0.0
-          - v15.1.0
-          - v16.0.0
-          - v16.16.0
-          - v16.17.0
-          - v17.0.0
-          - v17.9.1
-          - v18.0.0
-          - v18.6.0
-          - v18.7.0
-          - v20.0.0
-          - v20.5.1
+          - 12.22.12 # no dc
+          - 14.0.0 # no dc
+          - 14.16.1 # last without dc
+          - 14.17.0 # introduces dc
+          - 15.0.0 # last without dc
+          - 15.1.0 # introduces dc
+          - 16.0.0 # introduces dc
+          - 16.16.0 # last without dc.subscribe/unsubscribe
+          - 16.17.0 # introduces dc.subscribe/unsubscribe
+          - 17.0.0 # nothing special
+          - 17.9.1 # nothing special
+          - 18.0.0 # introduces dc
+          - 18.6.0 # last without dc.subscribe/unsubscribe
+          - 18.7.0 # introduces dc.subscribe/unsubscribe
+          - 20.0.0 # should support everything
+          - 20.5.1 # nothing special
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
