@@ -4,7 +4,7 @@
   "description": "A polyfill for the internal diagnostics_channel module",
   "main": "dc-polyfill.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/basic.spec.js"
   },
   "keywords": [
     "diagnostics",
