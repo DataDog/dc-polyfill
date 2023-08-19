@@ -10,7 +10,8 @@
     "diagnostics",
     "channel",
     "diagnostics_channel",
-    "tracing"
+    "tracing",
+    "TracingChannel"
   ],
   "author": "Thomas Hunter II <tlhunter@datadog.com>",
   "license": "MIT"
