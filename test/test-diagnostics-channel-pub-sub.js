@@ -1,52 +1,56 @@
 'use strict';
 
+const test = require('tape');
 const dc = require('../dc-polyfill.js');
-const assert = require('assert');
-const { Channel } = dc;
 
-const name = 'test';
-const input = {
-  foo: 'bar'
-};
+test('test-diagnostics-channel-pub-sub', t => {
+  const { Channel } = dc;
 
-// Individual channel objects can be created to avoid future lookups
-const channel = dc.channel(name);
-assert.ok(channel instanceof Channel);
+  const name = 'test';
+  const input = {
+    foo: 'bar'
+  };
 
-// No subscribers yet, should not publish
-assert.ok(!channel.hasSubscribers);
+  // Individual channel objects can be created to avoid future lookups
+  const channel = dc.channel(name);
+  t.ok(channel instanceof Channel);
 
-const subscriber = (message, name) => {
-  assert.strictEqual(name, channel.name);
-  assert.deepStrictEqual(message, input);
-};
+  // No subscribers yet, should not publish
+  t.ok(!channel.hasSubscribers);
 
-// Now there's a subscriber, should publish
-dc.subscribe(name, subscriber);
-assert.ok(channel.hasSubscribers);
 
-// The ActiveChannel prototype swap should not fail instanceof
-assert.ok(channel instanceof Channel);
+  const subscriber = (message, name) => {
+    t.strictEqual(name, channel.name);
+    t.deepEqual(message, input);
+  };
 
-// Should trigger the subscriber once
-channel.publish(input);
+  // Now there's a subscriber, should publish
+  dc.subscribe(name, subscriber);
+  t.ok(channel.hasSubscribers);
 
-// Should not publish after subscriber is unsubscribed
-assert.ok(dc.unsubscribe(name, subscriber));
-assert.ok(!channel.hasSubscribers);
+  // The ActiveChannel prototype swap should not fail instanceof
+  t.ok(channel instanceof Channel);
 
-// unsubscribe() should return false when subscriber is not found
-assert.ok(!dc.unsubscribe(name, subscriber));
+  // Should trigger the subscriber once
+  channel.publish(input);
 
-assert.throws(() => {
-  dc.subscribe(name, null);
-}, { code: 'ERR_INVALID_ARG_TYPE' });
+  // Should not publish after subscriber is unsubscribed
+  t.ok(dc.unsubscribe(name, subscriber));
+  t.ok(!channel.hasSubscribers);
 
-// Reaching zero subscribers should not delete from the channels map as there
-// will be no more weakref to incRef if another subscribe happens while the
-// channel object itself exists.
-channel.subscribe(subscriber);
-channel.unsubscribe(subscriber);
-channel.subscribe(subscriber);
+  // unsubscribe() should return false when subscriber is not found
+  t.ok(!dc.unsubscribe(name, subscriber));
 
-console.log(__filename, 'ok');
+  t.throws(() => {
+    dc.subscribe(name, null);
+  }, { code: 'ERR_INVALID_ARG_TYPE' });
+
+  // Reaching zero subscribers should not delete from the channels map as there
+  // will be no more weakref to incRef if another subscribe happens while the
+  // channel object itself exists.
+  channel.subscribe(subscriber);
+  channel.unsubscribe(subscriber);
+  channel.subscribe(subscriber);
+
+  t.end();
+});

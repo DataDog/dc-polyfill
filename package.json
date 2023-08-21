@@ -4,7 +4,7 @@
   "description": "A polyfill for the internal diagnostics_channel module",
   "main": "dc-polyfill.js",
   "scripts": {
-    "test": "./test.sh"
+    "test": "tape test/*.js"
   },
   "keywords": [
     "diagnostics",
@@ -14,5 +14,8 @@
     "TracingChannel"
   ],
   "author": "Thomas Hunter II <tlhunter@datadog.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "^5.6.6"
+  }
 }
