@@ -18,7 +18,6 @@ test('test-diagnostics-channel-pub-sub', t => {
   // No subscribers yet, should not publish
   t.ok(!channel.hasSubscribers);
 
-
   const subscriber = (message, name) => {
     t.strictEqual(name, channel.name);
     t.deepEqual(message, input);
