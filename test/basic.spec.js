@@ -1,7 +1,5 @@
 const assert = require('assert');
 
-console.log('Node.js version: ' + process.versions.node);
-
 const dc = require('../dc-polyfill.js');
 
 {
@@ -60,5 +58,4 @@ const dc = require('../dc-polyfill.js');
   assert.equal(ch.hasSubscribers, false, 'once an everyone has unsubscribed then hasSubscribers is falsey');
 }
 
-console.log('ok');
-
+console.log(__filename, 'ok');

@@ -1,7 +1,7 @@
 const [ MAJOR, MINOR, PATCH ] = process.versions.node.split('.').map(Number);
 
 if (hasFullSupport()) {
-  module.exports = require('diagnostics_channel');
+  module.exports = require('node:diagnostics_channel');
   return
 }
 
@@ -9,6 +9,10 @@ if (hasFullSupport()) {
 
 let diagnostics_channel;
 let channel_registry;
+
+if (providesDiagnosticsChannel()) {
+  diagnostics_channel = require('diagnostics_channel');
+}
 
 if (!providesDiagnosticsChannel()) {
   channel_registry = Symbol.for('dc-polyfill');
