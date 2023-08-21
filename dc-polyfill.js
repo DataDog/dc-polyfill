@@ -7,16 +7,31 @@ if (hasFullSupport()) {
 
 // TODO: everything else
 
-let diagnostics_channel;
+let dc;
 let channel_registry;
 
 if (providesDiagnosticsChannel()) {
-  diagnostics_channel = require('diagnostics_channel');
+  dc = require('diagnostics_channel');
 }
 
 if (!providesDiagnosticsChannel()) {
+  // TODO
   channel_registry = Symbol.for('dc-polyfill');
+  dc = require('./reimplementation.js');
 }
+
+if (!providesTopSubscribeUnsubscribe()) {
+  dc.subscribe = (channel, cb) => {
+    dc.channel(channel).subscribe(cb);
+  };
+  dc.unsubscribe = (channel, cb) => {
+    if (dc.channel(channel).hasSubscribers) {
+      dc.channel(channel).unsubscribe(cb);
+    }
+  };
+}
+
+module.exports = dc;
 
 
 
