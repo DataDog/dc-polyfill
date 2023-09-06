@@ -31,11 +31,11 @@ if (checks.hasZeroSubscribersBug()) {
 
 if (!checks.providesTopSubscribeUnsubscribe()) {
   dc.subscribe = (channel, cb) => {
-    dc.channel(channel).subscribe(cb);
+    return dc.channel(channel).subscribe(cb);
   };
   dc.unsubscribe = (channel, cb) => {
     if (dc.channel(channel).hasSubscribers) {
-      dc.channel(channel).unsubscribe(cb);
+      return dc.channel(channel).unsubscribe(cb);
     }
   };
 }
