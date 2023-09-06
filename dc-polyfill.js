@@ -89,7 +89,7 @@ class TracingChannel {
     for (const name of traceEvents) {
       if (!handlers[name]) continue;
 
-      if (!this[name]?.unsubscribe(handlers[name])) { // TODO ?.
+      if (!(this[name] && this[name].unsubscribe(handlers[name]))) {
         done = false;
       }
     }
