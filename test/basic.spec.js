@@ -1,5 +1,6 @@
 const test = require('tape');
 const dc = require('../dc-polyfill.js');
+const checks = require('../checks.js');
 
 test('high level checks', t => {
   t.ok(dc.subscribe, 'provides a top level .subscribe method');
@@ -32,6 +33,10 @@ test('ch.hasSubscribers', t => {
   dc.subscribe('nessie', fn);
   t.equal(ch.hasSubscribers, true, 'once a subscription occures then hasSubscribers is truthy');
   dc.unsubscribe('nessie', fn);
-  t.equal(ch.hasSubscribers, false, 'once an everyone has unsubscribed then hasSubscribers is falsey');
+  if (checks.hasZeroSubscribersBug()) {
+    t.comment('The current version of Node.js has the zero subscribers bug. Our patch leaves channels permanently subscribed. Skipping assertion.');
+  } else {
+    t.equal(ch.hasSubscribers, false, 'once everyone has unsubscribed then hasSubscribers is falsey');
+  }
   t.end();
 });

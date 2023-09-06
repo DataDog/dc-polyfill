@@ -2,6 +2,7 @@
 
 const test = require('tape');
 const dc = require('../dc-polyfill.js');
+const checks = require('../checks.js');
 
 test('test-diagnostics-channel-pub-sub', t => {
   const { Channel } = dc;
@@ -34,8 +35,12 @@ test('test-diagnostics-channel-pub-sub', t => {
   channel.publish(input);
 
   // Should not publish after subscriber is unsubscribed
-  t.ok(dc.unsubscribe(name, subscriber));
-  t.ok(!channel.hasSubscribers);
+  if (checks.hasZeroSubscribersBug()) {
+    t.comment('The current version of Node.js has the zero subscribers bug. Our patch leaves channels permanently subscribed. Skipping assertion.')
+  } else {
+    t.ok(dc.unsubscribe(name, subscriber));
+    t.ok(!channel.hasSubscribers);
+  }
 
   // unsubscribe() should return false when subscriber is not found
   t.ok(!dc.unsubscribe(name, subscriber));

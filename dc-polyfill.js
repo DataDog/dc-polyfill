@@ -1,5 +1,3 @@
-const [ MAJOR, MINOR, PATCH ] = process.versions.node.split('.').map(Number);
-
 const ReflectApply = Reflect.apply;
 const PromiseReject = Promise.reject;
 const PromiseResolve = Promise.resolve;
@@ -7,8 +5,9 @@ const PromisePrototypeThen = Promise.prototype.then;
 const ArrayPrototypeSplice = Array.prototype.splice;
 
 const { ERR_INVALID_ARG_TYPE } = require('./errors.js');
+const checks = require('./checks.js');
 
-if (hasFullSupport()) {
+if (checks.hasFullSupport()) {
   module.exports = require('node:diagnostics_channel');
   return
 }
@@ -18,17 +17,19 @@ if (hasFullSupport()) {
 let dc;
 let channel_registry;
 
-if (providesDiagnosticsChannel()) {
+if (checks.providesDiagnosticsChannel()) {
   dc = require('diagnostics_channel');
-}
-
-if (!providesDiagnosticsChannel()) {
+} else {
   // TODO
   channel_registry = Symbol.for('dc-polyfill');
   dc = require('./reimplementation.js');
 }
 
-if (!providesTopSubscribeUnsubscribe()) {
+if (checks.hasZeroSubscribersBug()) {
+  require('./patch-zero-subscriber-bug.js')(dc);
+}
+
+if (!checks.providesTopSubscribeUnsubscribe()) {
   dc.subscribe = (channel, cb) => {
     dc.channel(channel).subscribe(cb);
   };
@@ -39,7 +40,7 @@ if (!providesTopSubscribeUnsubscribe()) {
   };
 }
 
-if (!providesTracingChannel()) {
+if (!checks.providesTracingChannel()) {
   dc.tracingChannel = tracingChannel;
 }
 
@@ -197,32 +198,4 @@ class TracingChannel {
 
 function tracingChannel(nameOrChannels) {
   return new TracingChannel(nameOrChannels);
-}
-
-
-
-function hasFullSupport() {
-  return MAJOR >= 20;
-}
-
-function providesTracingChannel() {
-  return hasFullSupport();
-}
-
-function providesTopSubscribeUnsubscribe() {
-  return hasFullSupport()
-    || (MAJOR === 16 && MINOR >= 17)
-    || (MAJOR === 18 && MINOR >= 7);
-}
-
-function providesDiagnosticsChannel() {
-  return providesTopSubscribeUnsubscribe()
-    || (MAJOR >= 16)
-    || (MAJOR === 15 && MINOR >= 1)
-    || (MAJOR === 14 && MINOR >= 17);
-}
-
-function hasGarbageCollectionBug() {
-  return providesDiagnosticsChannel()
-    && !hasFullSupport()
 }
