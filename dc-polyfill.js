@@ -1,201 +1,31 @@
-const ReflectApply = Reflect.apply;
-const PromiseReject = Promise.reject;
-const PromiseResolve = Promise.resolve;
-const PromisePrototypeThen = Promise.prototype.then;
-const ArrayPrototypeSplice = Array.prototype.splice;
-
-const { ERR_INVALID_ARG_TYPE } = require('./errors.js');
 const checks = require('./checks.js');
 
 if (checks.hasFullSupport()) {
   module.exports = require('node:diagnostics_channel');
-  return
+  return;
 }
 
-// TODO: everything else
+// TODO: global symbol channel registry when building from scratch
 
-let dc;
-let channel_registry;
-
-if (checks.providesDiagnosticsChannel()) {
-  dc = require('diagnostics_channel');
-} else {
-  // TODO
-  channel_registry = Symbol.for('dc-polyfill');
-  dc = require('./reimplementation.js');
-}
+const dc = checks.hasDiagnosticsChannel()
+  ? require('diagnostics_channel')
+  : require('./reimplementation.js');
 
 if (checks.hasZeroSubscribersBug()) {
   require('./patch-zero-subscriber-bug.js')(dc);
 }
 
-if (!checks.providesTopSubscribeUnsubscribe()) {
-  dc.subscribe = (channel, cb) => {
-    return dc.channel(channel).subscribe(cb);
-  };
-  dc.unsubscribe = (channel, cb) => {
-    if (dc.channel(channel).hasSubscribers) {
-      return dc.channel(channel).unsubscribe(cb);
-    }
-  };
+if (!checks.hasTopSubscribeUnsubscribe()) {
+  require('./patch-top-subscribe-unsubscribe.js')(dc);
 }
 
-if (!checks.providesTracingChannel()) {
-  dc.tracingChannel = tracingChannel;
+if (!checks.hasChUnsubscribeReturn()) {
+  require('./patch-channel-unsubscribe-return.js')(dc);
+}
+
+if (!checks.hasTracingChannel()) {
+  require('./patch-tracing-channel.js')(dc);
 }
 
 module.exports = dc;
 
-class TracingChannel {
-  constructor(nameOrChannels) {
-    if (typeof nameOrChannels === 'string') {
-      this.start = channel(`tracing:${nameOrChannels}:start`);
-      this.end = channel(`tracing:${nameOrChannels}:end`);
-      this.asyncStart = channel(`tracing:${nameOrChannels}:asyncStart`);
-      this.asyncEnd = channel(`tracing:${nameOrChannels}:asyncEnd`);
-      this.error = channel(`tracing:${nameOrChannels}:error`);
-    } else if (typeof nameOrChannels === 'object') {
-      const { start, end, asyncStart, asyncEnd, error } = nameOrChannels;
-
-      // assertChannel(start, 'nameOrChannels.start');
-      // assertChannel(end, 'nameOrChannels.end');
-      // assertChannel(asyncStart, 'nameOrChannels.asyncStart');
-      // assertChannel(asyncEnd, 'nameOrChannels.asyncEnd');
-      // assertChannel(error, 'nameOrChannels.error');
-
-      this.start = start;
-      this.end = end;
-      this.asyncStart = asyncStart;
-      this.asyncEnd = asyncEnd;
-      this.error = error;
-    } else {
-      throw new ERR_INVALID_ARG_TYPE('nameOrChannels',
-                                     ['string', 'object', 'Channel'],
-                                     nameOrChannels);
-    }
-  }
-
-  subscribe(handlers) {
-    for (const name of traceEvents) {
-      if (!handlers[name]) continue;
-
-      if (this[name]) this[name].subscribe(handlers[name]);
-    }
-  }
-
-  unsubscribe(handlers) {
-    let done = true;
-
-    for (const name of traceEvents) {
-      if (!handlers[name]) continue;
-
-      if (!(this[name] && this[name].unsubscribe(handlers[name]))) {
-        done = false;
-      }
-    }
-
-    return done;
-  }
-
-  traceSync(fn, context = {}, thisArg, ...args) {
-    const { start, end, error } = this;
-
-    return start.runStores(context, () => {
-      try {
-        const result = ReflectApply(fn, thisArg, args);
-        context.result = result;
-        return result;
-      } catch (err) {
-        context.error = err;
-        error.publish(context);
-        throw err;
-      } finally {
-        end.publish(context);
-      }
-    });
-  }
-
-  tracePromise(fn, context = {}, thisArg, ...args) {
-    const { start, end, asyncStart, asyncEnd, error } = this;
-
-    function reject(err) {
-      context.error = err;
-      error.publish(context);
-      asyncStart.publish(context);
-      // TODO: Is there a way to have asyncEnd _after_ the continuation?
-      asyncEnd.publish(context);
-      return PromiseReject(err);
-    }
-
-    function resolve(result) {
-      context.result = result;
-      asyncStart.publish(context);
-      // TODO: Is there a way to have asyncEnd _after_ the continuation?
-      asyncEnd.publish(context);
-      return result;
-    }
-
-    return start.runStores(context, () => {
-      try {
-        let promise = ReflectApply(fn, thisArg, args);
-        // Convert thenables to native promises
-        if (!(promise instanceof Promise)) {
-          promise = PromiseResolve(promise);
-        }
-        return PromisePrototypeThen(promise, resolve, reject);
-      } catch (err) {
-        context.error = err;
-        error.publish(context);
-        throw err;
-      } finally {
-        end.publish(context);
-      }
-    });
-  }
-
-  traceCallback(fn, position = -1, context = {}, thisArg, ...args) {
-    const { start, end, asyncStart, asyncEnd, error } = this;
-
-    function wrappedCallback(err, res) {
-      if (err) {
-        context.error = err;
-        error.publish(context);
-      } else {
-        context.result = res;
-      }
-
-      // Using runStores here enables manual context failure recovery
-      asyncStart.runStores(context, () => {
-        try {
-          if (callback) {
-            return ReflectApply(callback, this, arguments);
-          }
-        } finally {
-          asyncEnd.publish(context);
-        }
-      });
-    }
-
-    const callback = ArrayPrototypeAt(args, position);
-    if (typeof callback !== 'function') {
-      throw new ERR_INVALID_ARG_TYPE('callback', ['function'], callback);
-    }
-    ArrayPrototypeSplice(args, position, 1, wrappedCallback);
-
-    return start.runStores(context, () => {
-      try {
-        return ReflectApply(fn, thisArg, args);
-      } catch (err) {
-        context.error = err;
-        error.publish(context);
-        throw err;
-      } finally {
-        end.publish(context);
-      }
-    });
-  }
-}
-
-function tracingChannel(nameOrChannels) {
-  return new TracingChannel(nameOrChannels);
-}
