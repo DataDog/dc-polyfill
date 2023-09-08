@@ -4,42 +4,42 @@
 const { channel, Channel } = require('diagnostics_channel');
 
 module.exports = function (dc) {
-  const channels = new WeakSet()
+  const channels = new WeakSet();
 
   dc.channel = function () {
-    const ch = channel.apply(this, arguments)
+    const ch = channel.apply(this, arguments);
 
-    if (!channels.has(ch)) {
-      const subscribe = ch.subscribe
-      const unsubscribe = ch.unsubscribe
+    if (channels.has(ch)) return ch;
 
-      ch.subscribe = function () {
-        delete ch.subscribe
-        delete ch.unsubscribe
+    const subscribe = ch.subscribe;
+    const unsubscribe = ch.unsubscribe;
 
-        const result = subscribe.apply(this, arguments)
+    ch.subscribe = function () {
+      delete ch.subscribe;
+      delete ch.unsubscribe;
 
-        this.subscribe(() => {}) // Keep it active forever.
+      const result = subscribe.apply(this, arguments);
 
-        return result
-      }
+      this.subscribe(() => {}); // Keep it active forever.
 
-      if (ch.unsubscribe === Channel.prototype.unsubscribe) {
-        // Needed because another subscriber could have subscribed to something
-        // that we unsubscribe to before the library is loaded.
-        ch.unsubscribe = function () {
-          delete ch.subscribe
-          delete ch.unsubscribe
+      return result;
+    };
 
-          this.subscribe(() => {}) // Keep it active forever.
+    if (ch.unsubscribe === Channel.prototype.unsubscribe) {
+      // Needed because another subscriber could have subscribed to something
+      // that we unsubscribe to before the library is loaded.
+      ch.unsubscribe = function () {
+        delete ch.subscribe;
+        delete ch.unsubscribe;
 
-          return unsubscribe.apply(this, arguments)
-        }
-      }
+        this.subscribe(() => {}); // Keep it active forever.
 
-      channels.add(ch)
+        return unsubscribe.apply(this, arguments);
+      };
     }
 
-    return ch
+    channels.add(ch);
   }
+
+  return ch;
 };
