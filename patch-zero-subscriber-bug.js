@@ -1,9 +1,10 @@
 // Prevent going to 0 subscribers to avoid bug in Node.js
 // Only affects version 19.9.0
 // @see https://github.com/nodejs/node/pull/47520
-const { channel, Channel } = require('diagnostics_channel');
+// const { channel, Channel } = require('diagnostics_channel');
 
 module.exports = function (dc) {
+  const { channel, Channel } = dc;
   const channels = new WeakSet();
 
   dc.channel = function () {

@@ -11,6 +11,10 @@ const dc = checks.hasDiagnosticsChannel()
   ? require('diagnostics_channel')
   : require('./reimplementation.js');
 
+if (checks.hasGarbageCollectionBug()) {
+  require('./patch-garbage-collection-bug.js')(dc);
+}
+
 if (checks.hasZeroSubscribersBug()) {
   require('./patch-zero-subscriber-bug.js')(dc);
 }

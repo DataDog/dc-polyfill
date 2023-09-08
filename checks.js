@@ -10,6 +10,13 @@ function hasTracingChannel() {
 }
 module.exports.hasTracingChannel = hasTracingChannel;
 
+function hasDiagnosticsChannel() {
+  return (MAJOR >= 16)
+    || (MAJOR === 15 && MINOR >= 1)
+    || (MAJOR === 14 && MINOR >= 17);
+}
+module.exports.hasDiagnosticsChannel = hasDiagnosticsChannel;
+
 function hasTopSubscribeUnsubscribe() {
   return hasFullSupport()
     || (MAJOR === 16 && MINOR >= 17)
@@ -17,17 +24,8 @@ function hasTopSubscribeUnsubscribe() {
 }
 module.exports.hasTopSubscribeUnsubscribe = hasTopSubscribeUnsubscribe;
 
-function hasDiagnosticsChannel() {
-  return hasTopSubscribeUnsubscribe()
-    || (MAJOR >= 16)
-    || (MAJOR === 15 && MINOR >= 1)
-    || (MAJOR === 14 && MINOR >= 17);
-}
-module.exports.hasDiagnosticsChannel = hasDiagnosticsChannel;
-
 function hasGarbageCollectionBug() {
-  return hasDiagnosticsChannel()
-    && !hasFullSupport();
+  return hasDiagnosticsChannel() && !hasFullSupport();
 }
 module.exports.hasGarbageCollectionBug = hasGarbageCollectionBug;
 
@@ -38,10 +36,9 @@ module.exports.hasZeroSubscribersBug = hasZeroSubscribersBug;
 
 // if Channel#unsubscribe() returns a boolean
 function hasChUnsubscribeReturn() {
-  return hasFullSupport()
+  return (MAJOR >= 18) // 18.0, 19.0, etc.
     || (MAJOR === 14 && MINOR >= 19)
     || (MAJOR === 16 && MINOR >= 14)
-    || (MAJOR === 17 && MINOR >= 1)
-    || (MAJOR === 18);
+    || (MAJOR === 17 && MINOR >= 1);
 }
 module.exports.hasChUnsubscribeReturn = hasChUnsubscribeReturn;
