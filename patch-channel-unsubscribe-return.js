@@ -4,7 +4,7 @@ module.exports = function (dc) {
   const channels = new WeakSet();
 
   const dc_channel = dc.channel;
-  const dc_Channel = dc.channel;
+  const dc_Channel = dc.Channel;
 
   dc.channel = function() {
     const ch = dc_channel.apply(this, arguments);
