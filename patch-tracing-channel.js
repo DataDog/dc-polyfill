@@ -5,6 +5,8 @@ const makeCall = (fn) => (...args) => fn.call(...args);
 const PromisePrototypeThen = makeCall(Promise.prototype.then);
 const ArrayPrototypeSplice = makeCall(Array.prototype.splice);
 
+const { ERR_INVALID_ARG_TYPE } = require('./errors.js');
+
 class TracingChannel {
   constructor(nameOrChannels) {
     if (typeof nameOrChannels === 'string') {
