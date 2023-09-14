@@ -1,8 +1,9 @@
 const ReflectApply = Reflect.apply;
 const PromiseReject = Promise.reject;
 const PromiseResolve = Promise.resolve;
-const PromisePrototypeThen = Promise.prototype.then;
-const ArrayPrototypeSplice = Array.prototype.splice;
+const makeCall = (fn) => (...args) => fn.call(...args);
+const PromisePrototypeThen = makeCall(Promise.prototype.then);
+const ArrayPrototypeSplice = makeCall(Array.prototype.splice);
 
 class TracingChannel {
   constructor(nameOrChannels) {
