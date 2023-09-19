@@ -3,6 +3,8 @@ module.exports = function (dc) {
     return dc.channel(channel).subscribe(cb);
   };
   dc.unsubscribe = (channel, cb) => {
-    return dc.channel(channel).unsubscribe(cb);
+    if (dc.channel(channel).hasSubscribers) {
+      return dc.channel(channel).unsubscribe(cb);
+    }
   };
 };
