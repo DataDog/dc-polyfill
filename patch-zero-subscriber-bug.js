@@ -40,7 +40,7 @@ module.exports = function (dc) {
     }
 
     channels.add(ch);
-  }
 
-  return ch;
+    return ch;
+  }
 };

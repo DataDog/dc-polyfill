@@ -23,6 +23,9 @@ test('channel tests', t => {
   t.ok(ch instanceof dc.Channel, 'dc.channel() return value instance of dc.Channel');
   t.strictEqual(dc.channel('foo'), dc.channel('foo'), 'multiple calls to dc.channel() return same channel instance');
   t.notEqual(dc.channel('foo'), dc.channel('bar'), 'calls to dc.channel() with different names return separate channel instances');
+  t.equal(typeof dc.channel('foo1').bindStore, 'function', 'provides Channel#bindStore()');
+  t.equal(typeof dc.channel('foo2').unbindStore, 'function', 'provides Channel#unbindStore()');
+  t.equal(typeof dc.channel('foo3').runStores, 'function', 'provides Channel#runStores()');
   t.end();
 });
 

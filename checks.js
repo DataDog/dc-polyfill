@@ -34,6 +34,12 @@ function hasZeroSubscribersBug() {
 }
 module.exports.hasZeroSubscribersBug = hasZeroSubscribersBug;
 
+function hasChannelStoreMethods() {
+  return hasFullSupport()
+    || (MAJOR === 19 && MINOR >= 9);
+}
+module.exports.hasChannelStoreMethods = hasChannelStoreMethods;
+
 // if Channel#unsubscribe() returns a boolean
 function hasChUnsubscribeReturn() {
   return (MAJOR >= 18) // 18.0, 19.0, etc.

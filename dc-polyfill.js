@@ -27,6 +27,10 @@ if (!checks.hasChUnsubscribeReturn()) {
   require('./patch-channel-unsubscribe-return.js')(dc);
 }
 
+if (!checks.hasChannelStoreMethods()) {
+  require('./patch-channel-store-methods.js')(dc);
+}
+
 if (!checks.hasTracingChannel()) {
   require('./patch-tracing-channel.js')(dc);
 }

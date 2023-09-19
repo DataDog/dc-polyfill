@@ -14,10 +14,10 @@ test('test-diagnostics-channel-pub-sub', t => {
 
   // Individual channel objects can be created to avoid future lookups
   const channel = dc.channel(name);
-  t.ok(channel instanceof Channel);
+  t.ok(channel instanceof Channel, 'Individual channel objects can be created to avoid future lookups');
 
   // No subscribers yet, should not publish
-  t.ok(!channel.hasSubscribers);
+  t.ok(!channel.hasSubscribers, 'No subscribers yet, should not publish');
 
   const subscriber = (message, name) => {
     t.strictEqual(name, channel.name);
@@ -26,10 +26,10 @@ test('test-diagnostics-channel-pub-sub', t => {
 
   // Now there's a subscriber, should publish
   dc.subscribe(name, subscriber);
-  t.ok(channel.hasSubscribers);
+  t.ok(channel.hasSubscribers, "Now there's a subscriber, should publish");
 
   // The ActiveChannel prototype swap should not fail instanceof
-  t.ok(channel instanceof Channel);
+  t.ok(channel instanceof Channel, 'The ActiveChannel prototype swap should not fail instanceof');
 
   // Should trigger the subscriber once
   channel.publish(input);
@@ -38,12 +38,12 @@ test('test-diagnostics-channel-pub-sub', t => {
   if (checks.hasZeroSubscribersBug()) {
     t.comment('The current version of Node.js has the zero subscribers bug. Our patch leaves channels permanently subscribed. Skipping assertion.')
   } else {
-    t.ok(dc.unsubscribe(name, subscriber));
-    t.ok(!channel.hasSubscribers);
+    t.ok(dc.unsubscribe(name, subscriber), 'dc.unsubscribe(name, sub) should return true');
+    t.ok(!channel.hasSubscribers, 'ch.hasSubscribers should now be false');
   }
 
   // unsubscribe() should return false when subscriber is not found
-  t.ok(!dc.unsubscribe(name, subscriber));
+  t.ok(!dc.unsubscribe(name, subscriber), 'unsubscribe() should return false when subscriber is not found');
 
   t.throws(() => {
     dc.subscribe(name, null);
