@@ -1,3 +1,5 @@
+console.log('PATCH-ZERO-SUBSCRIBER-BUG');
+
 // Prevent going to 0 subscribers to avoid bug in Node.js
 // Only affects version 19.9.0
 // @see https://github.com/nodejs/node/pull/47520

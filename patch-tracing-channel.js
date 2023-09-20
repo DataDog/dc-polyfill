@@ -1,3 +1,5 @@
+console.log('PATCH-TRACING-CHANNEL');
+
 const ReflectApply = Reflect.apply;
 const PromiseReject = Promise.reject;
 const PromiseResolve = Promise.resolve;

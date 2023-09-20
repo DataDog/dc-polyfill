@@ -1,6 +1,8 @@
+console.log('PATCH-GARBAGE-COLLECTION-BUG');
+
 // There's a bug where a newly created channel is immediately garbage collected
 // @see https://github.com/nodejs/node/pull/47520
-const PHONY_SUBSCRIBE = function phonySubscribe() {};
+const PHONY_SUBSCRIBE = function AVOID_GARBAGE_COLLECTION() {};
 
 module.exports = function(dc) {
   const dc_channel = dc.channel;
@@ -15,9 +17,15 @@ module.exports = function(dc) {
 
     channels.add(ch);
 
-    // TODO: replace channel unsubscribe to check if
-    // ._subscribers.length === 1 && .subscribers[0] === PHONY_SUBSCRIBE
-    // and then lie about .hasSubscribers() ???
+    Object.defineProperty(ch, 'hasSubscribers', {
+      get: function() {
+        const subscribers = ch._subscribers;
+        if (subscribers.length > 1) return true;
+        if (subscribers.length < 1) return false;
+        if (subscribers[0] === PHONY_SUBSCRIBE) return false;
+        return true;
+      },
+    });
 
     return ch;
   };

@@ -1,3 +1,5 @@
+console.log('PATCH-CHANNEL-STORE-METHODS');
+
 module.exports = function (dc) {
   const channels = new WeakSet();
 
