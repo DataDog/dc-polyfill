@@ -6,6 +6,8 @@ console.log('PATCH-ZERO-SUBSCRIBER-BUG');
 // const { channel, Channel } = require('diagnostics_channel');
 
 module.exports = function (dc) {
+  return; // TODO: Is this file now entirely redundant due to patch-channel-unsubscribe-return.js?
+
   const { channel, Channel } = dc;
   const channels = new WeakSet();
 

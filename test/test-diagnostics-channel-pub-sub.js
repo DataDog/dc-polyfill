@@ -35,12 +35,8 @@ test('test-diagnostics-channel-pub-sub', t => {
   channel.publish(input);
 
   // Should not publish after subscriber is unsubscribed
-  if (checks.hasZeroSubscribersBug()) {
-    t.comment('The current version of Node.js has the zero subscribers bug. Our patch leaves channels permanently subscribed. Skipping assertion.')
-  } else {
-    t.ok(dc.unsubscribe(name, subscriber), 'dc.unsubscribe(name, sub) should return true');
-    t.ok(!channel.hasSubscribers, 'ch.hasSubscribers should now be false');
-  }
+  t.ok(dc.unsubscribe(name, subscriber), 'dc.unsubscribe(name, sub) should return true');
+  t.ok(!channel.hasSubscribers, 'ch.hasSubscribers should now be false');
 
   // unsubscribe() should return false when subscriber is not found
   t.ok(!dc.unsubscribe(name, subscriber), 'unsubscribe() should return false when subscriber is not found');

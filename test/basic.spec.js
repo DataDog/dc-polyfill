@@ -31,17 +31,20 @@ test('channel tests', t => {
 
 test('ch.hasSubscribers', t => {
   const ch = dc.channel('nessie');
+  console.log(ch);
   t.equal(ch.hasSubscribers, false, 'newly created channel should have no subscribers');
   // Can't check constructor as garbage collection patch makes all channels an ActiveChannel...
   // t.equal(ch.constructor.name, 'Channel', 'by default is an instance of Channel');
 
   const fn = function MY_SUB() {};
   dc.subscribe('nessie', fn);
+  console.log(ch);
   t.equal(ch.hasSubscribers, true, 'once a subscription occures then hasSubscribers is truthy');
   // Can't check constructor as garbage collection patch makes all channels an ActiveChannel...
   // t.equal(ch.constructor.name, 'ActiveChannel', 'once it gets subscribers it is an ActiveChannel instance');
 
   dc.unsubscribe('nessie', fn);
+  console.log(ch);
   t.equal(ch.hasSubscribers, false, 'once everyone has unsubscribed then hasSubscribers is falsey');
   // Can't check constructor as garbage collection patch makes all channels an ActiveChannel...
   // t.equal(ch.constructor.name, 'Channel', 'once the final subscriber leaves the instance is of Channel again');

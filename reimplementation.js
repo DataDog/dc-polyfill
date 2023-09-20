@@ -15,6 +15,7 @@ class ActiveChannel {
   }
 
   unsubscribe(subscription) {
+    console.log('ActiveChannel#unsubscribe()');
     const index = this._subscribers.indexOf(subscription);
     if (index === -1) return false;
 
@@ -66,6 +67,7 @@ class Channel {
   }
 
   unsubscribe() {
+    console.log('Channel#unsubscribe()');
     return false;
   }
 

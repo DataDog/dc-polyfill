@@ -37,8 +37,8 @@ jobs:
           - 18.7.0 # introduces dc.subscribe/unsubscribe
           - 18.x # nothing special, has dc, latest 18
           - 19.0.0 # nothing special, has dc
+          - 19.8.x # nothing special, has dc
           - 19.9.0 # https://github.com/nodejs/node/pull/47520
-          - 19.x # nothing special, has dc
           - 20.0.0 # should support everything
           - 20.x # nothing special, full support dc, latest 20
     steps:
