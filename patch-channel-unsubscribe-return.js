@@ -5,11 +5,6 @@ console.log('PATCH-CHANNEL-UNSUBSCRIBE-RETURN');
 module.exports = function (dc) {
   const channels = new WeakSet();
 
-  // TODO: This break reimplementation
-  // for example v12 we use the wrong
-  // ch.unsubscribe from Channel instead
-  // of ActiveChannel
-
   const dc_channel = dc.channel;
   const dc_Channel = dc.Channel;
 
@@ -18,7 +13,9 @@ module.exports = function (dc) {
 
     if (channels.has(ch)) return ch;
 
-    const unsubscribe = ch.unsubscribe;
+    // TODO: This caches Channel.unsubscribe
+    // which breaks when becoming ActiveChannel
+    // const unsubscribe = ch.unsubscribe;
 
     if (ch.unsubscribe === dc_Channel.prototype.unsubscribe) {
       // Needed because another subscriber could have subscribed to something
@@ -28,7 +25,8 @@ module.exports = function (dc) {
 
         const oldSubscriberCount = this._subscribers.length;
 
-        unsubscribe.apply(this, arguments);
+        // unsubscribe.apply(this, arguments);
+        ch.__proto__.unsubscribe.apply(this, arguments);
 
         return this._subscribers.length < oldSubscriberCount;
       };
