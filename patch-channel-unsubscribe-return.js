@@ -18,18 +18,18 @@ module.exports = function (dc) {
     // const unsubscribe = ch.unsubscribe;
 
     //if (ch.unsubscribe === dc_Channel.prototype.unsubscribe) {
-      // Needed because another subscriber could have subscribed to something
-      // that we unsubscribe to before the library is loaded.
-      ch.unsubscribe = function () {
-        delete ch.unsubscribe;
+    // Needed because another subscriber could have subscribed to something
+    // that we unsubscribe to before the library is loaded.
+    ch.unsubscribe = function () {
+      delete ch.unsubscribe;
 
-        const oldSubscriberCount = this._subscribers.length;
+      const oldSubscriberCount = this._subscribers.length;
 
-        // unsubscribe.apply(this, arguments);
-        ch.__proto__.unsubscribe.apply(this, arguments);
+      // unsubscribe.apply(this, arguments);
+      ch.__proto__.unsubscribe.apply(this, arguments);
 
-        return this._subscribers.length < oldSubscriberCount;
-      };
+      return this._subscribers.length < oldSubscriberCount;
+    };
     //}
 
     channels.add(ch);
