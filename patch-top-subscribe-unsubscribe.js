@@ -5,6 +5,9 @@ module.exports = function (dc) {
     return dc.channel(channel).subscribe(cb);
   };
   dc.unsubscribe = (channel, cb) => {
-    return dc.channel(channel).unsubscribe(cb);
+    const ch = dc.channel(channel);
+    console.log(String(ch.unsubscribe));
+
+      return ch.unsubscribe(cb);
   };
 };

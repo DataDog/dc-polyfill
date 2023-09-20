@@ -17,7 +17,7 @@ module.exports = function (dc) {
     // which breaks when becoming ActiveChannel
     // const unsubscribe = ch.unsubscribe;
 
-    if (ch.unsubscribe === dc_Channel.prototype.unsubscribe) {
+    //if (ch.unsubscribe === dc_Channel.prototype.unsubscribe) {
       // Needed because another subscriber could have subscribed to something
       // that we unsubscribe to before the library is loaded.
       ch.unsubscribe = function () {
@@ -30,7 +30,7 @@ module.exports = function (dc) {
 
         return this._subscribers.length < oldSubscriberCount;
       };
-    }
+    //}
 
     channels.add(ch);
 
