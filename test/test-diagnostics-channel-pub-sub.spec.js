@@ -2,12 +2,11 @@
 
 const test = require('tape');
 const dc = require('../dc-polyfill.js');
-const checks = require('../checks.js');
 
 test('test-diagnostics-channel-pub-sub', t => {
   const { Channel } = dc;
 
-  const name = 'test';
+  const name = 'test-diagnostics-channel-pub-sub';
   const input = {
     foo: 'bar'
   };

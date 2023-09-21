@@ -1,6 +1,5 @@
 const test = require('tape');
 const dc = require('../dc-polyfill.js');
-const checks = require('../checks.js');
 
 test('high level checks', t => {
   t.ok(dc.subscribe, 'provides a top level .subscribe method');
