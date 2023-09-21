@@ -1,4 +1,7 @@
 const [ MAJOR, MINOR, PATCH ] = process.versions.node.split('.').map(Number);
+module.exports.MAJOR = MAJOR;
+module.exports.MINOR = MINOR;
+module.exports.PATCH = PATCH;
 
 function hasFullSupport() {
   return MAJOR >= 20;
