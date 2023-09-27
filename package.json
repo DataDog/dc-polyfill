@@ -4,7 +4,7 @@
   "description": "A polyfill for the internal diagnostics_channel module",
   "main": "dc-polyfill.js",
   "scripts": {
-    "test": "node -v && tape test/*.spec.js"
+    "test": "./test.sh"
   },
   "keywords": [
     "diagnostics",
