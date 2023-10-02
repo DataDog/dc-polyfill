@@ -1,6 +1,7 @@
 const assert = require('assert');
 const { inspect } = require('util');
 
+const noop = () => {};
 
 function getCallSite(top) {
   const originalStackFormatter = Error.prepareStackTrace;
