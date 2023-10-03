@@ -4,7 +4,8 @@
   "description": "A polyfill for the internal diagnostics_channel module",
   "main": "dc-polyfill.js",
   "scripts": {
-    "test": "./test.sh"
+    "test": "./test.sh",
+    "limits": "./limitation.js"
   },
   "keywords": [
     "diagnostics",
@@ -17,5 +18,13 @@
   "license": "MIT",
   "devDependencies": {
     "tape": "^5.6.6"
+  },
+  "limits": {
+    "packedSize": 10000,
+    "unpackedSize": 35000,
+    "maxDependencies": 0
+  },
+  "engines": {
+    "node": ">=12"
   }
 }

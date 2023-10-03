@@ -2,7 +2,7 @@ echo "Node.js version: $(node --version)"
 
 errors=0
 
-for i in test/*.js; do
+for i in test/*.spec.js; do
 	node "$i" || ((errors++))
 done
 

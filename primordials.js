@@ -1,6 +1,7 @@
 const makeCall = (fn) => (...args) => fn.call(...args);
 
 // https://github.com/tc39/proposal-relative-indexing-method#polyfill
+// v16.6.0+, v17+
 function arrayAtPolyfill(n) {
   // ToInteger() abstract op
   n = Math.trunc(n) || 0;
