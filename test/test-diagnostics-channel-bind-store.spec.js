@@ -56,8 +56,7 @@ test('test-diagnostics-channel-bind-store.spec', t => {
     n++;
     channel.runStores(inputs[n], common.mustCall(function() {
       // Verify this and argument forwarding
-      // TODO: skipping this test as `this` is equal to `global`
-      // might be a bug with mustCall? or a bug with wrapping Node's test in a tape function?
+      // TODO: For some reason `this` === `global`. Seems like a bug in common.mustCall?
       // t.strictEqual(this, undefined);
 
       // Verify store 1 state matches input
