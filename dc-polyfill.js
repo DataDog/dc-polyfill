@@ -1,5 +1,7 @@
 const checks = require('./checks.js');
 
+require('./primordials.js');
+
 if (checks.hasFullSupport()) {
   module.exports = require('node:diagnostics_channel');
   return;

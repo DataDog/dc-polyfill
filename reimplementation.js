@@ -1,5 +1,4 @@
 'use strict';
-console.log('REIMPLEMENTATION');
 
 // https://github.com/simon-id/diagnostics_channel-polyfill
 

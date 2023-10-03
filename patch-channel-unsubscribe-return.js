@@ -1,5 +1,3 @@
-console.log('PATCH-CHANNEL-UNSUBSCRIBE-RETURN');
-
 // The ch.unsubscribe() method doesn't return a value // Recent versions return if an unsubscribe succeeded
 // @see https://github.com/nodejs/node/pull/40433
 module.exports = function (dc) {

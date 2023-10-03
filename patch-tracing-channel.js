@@ -1,12 +1,11 @@
-console.log('PATCH-TRACING-CHANNEL');
-
-const ReflectApply = Reflect.apply;
-const PromiseReject = Promise.reject.bind(Promise);
-const PromiseResolve = Promise.resolve;
-const makeCall = (fn) => (...args) => fn.call(...args);
-const PromisePrototypeThen = makeCall(Promise.prototype.then);
-const ArrayPrototypeSplice = makeCall(Array.prototype.splice);
-const ArrayPrototypeAt = makeCall(Array.prototype.at);
+const {
+  ReflectApply,
+  PromiseReject,
+  PromiseResolve,
+  PromisePrototypeThen,
+  ArrayPrototypeSplice,
+  ArrayPrototypeAt,
+} = require('./primordials.js');
 
 const { ERR_INVALID_ARG_TYPE } = require('./errors.js');
 

@@ -1,5 +1,3 @@
-console.log('PATCH-GARBAGE-COLLECTION-BUG');
-
 // There's a bug where a newly created channel is immediately garbage collected
 // @see https://github.com/nodejs/node/pull/47520
 const PHONY_SUBSCRIBE = function AVOID_GARBAGE_COLLECTION() {};

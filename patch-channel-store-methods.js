@@ -1,6 +1,4 @@
-console.log('PATCH-CHANNEL-STORE-METHODS');
-
-const ReflectApply = Reflect.apply;
+const { ReflectApply } = require('./primordials.js');
 
 module.exports = function (dc) {
   const channels = new WeakSet();
