@@ -37,5 +37,9 @@ if (!checks.hasTracingChannel()) {
   require('./patch-tracing-channel.js')(dc);
 }
 
+if (checks.hasSyncUnsubscribeBug()) {
+  require('./patch-sync-unsubscribe-bug.js')(dc);
+}
+
 module.exports = dc;
 

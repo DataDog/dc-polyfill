@@ -3,7 +3,7 @@
 const test = require('tape');
 const common = require('./common.js');
 const dc = require('../dc-polyfill.js');
-const { MAJOR } = require('../checks.js');
+const { MAJOR, MINOR } = require('../checks.js');
 
 test('test-diagnostics-channel-tracing-channel-async.spec.js', (t) => {
   t.plan(23);
@@ -57,7 +57,9 @@ test('test-diagnostics-channel-tracing-channel-async.spec.js', (t) => {
   try {
     channel.traceCallback(common.mustNotCall(), 0, input, thisArg, 1, 2, 3);
   } catch (err) {
-    if (MAJOR >= 20) {
+    if (MAJOR >= 20 && MINOR >= 6) {
+      // By default, this error message is used for all of v20
+      // However, patch-sync-unsubscribe-bug causes the error to change to the older version mentioning Array
       t.ok(/"callback" argument must be of type function/.test(err.message));
     } else {
       t.ok(/Received an instance of Array/.test(err.message));

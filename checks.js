@@ -4,7 +4,7 @@ module.exports.MINOR = MINOR;
 module.exports.PATCH = PATCH;
 
 function hasFullSupport() {
-  return MAJOR >= 20;
+  return MAJOR >= 20 && MINOR >= 6;
 }
 module.exports.hasFullSupport = hasFullSupport;
 
@@ -51,3 +51,8 @@ function hasChUnsubscribeReturn() {
     || (MAJOR === 17 && MINOR >= 1);
 }
 module.exports.hasChUnsubscribeReturn = hasChUnsubscribeReturn;
+
+function hasSyncUnsubscribeBug() {
+  return MAJOR === 20 && MINOR <= 5;
+}
+module.exports.hasSyncUnsubscribeBug = hasSyncUnsubscribeBug;
