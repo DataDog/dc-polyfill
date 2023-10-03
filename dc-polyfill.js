@@ -2,11 +2,6 @@ const checks = require('./checks.js');
 
 require('./primordials.js');
 
-if (checks.hasFullSupport()) {
-  module.exports = require('node:diagnostics_channel');
-  return;
-}
-
 // TODO: global symbol channel registry when building from scratch
 
 const dc = checks.hasDiagnosticsChannel()
