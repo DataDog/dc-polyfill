@@ -4,13 +4,13 @@ const test = require('tape');
 const common = require('./common.js');
 const { AsyncLocalStorage } = require('async_hooks');
 const dc = require('../dc-polyfill.js');
-const assert = require('assert');
 const http = require('http');
 
 const als = new AsyncLocalStorage();
 let context;
 
 test('test-diagnostics-channel-http-server-start', t => {
+  t.plan(12);
   // Bind requests to an AsyncLocalStorage context
   dc.subscribe('http.server.request.start', common.mustCall((message) => {
     als.enterWith(message);
@@ -52,7 +52,6 @@ test('test-diagnostics-channel-http-server-start', t => {
       res.resume();
       res.on('end', () => {
         server.close();
-        t.end();
       });
     });
   });
