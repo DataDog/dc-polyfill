@@ -5,6 +5,12 @@ const common = require('./common.js');
 const { AsyncLocalStorage } = require('async_hooks');
 const dc = require('../dc-polyfill.js');
 const http = require('http');
+const { MAJOR, MINOR } = require('../checks.js');
+
+// This test depends on features only available in certain versions of Node.js
+if (MAJOR < 14) return;
+if (MAJOR === 14 && MINOR < 17) return;
+if (MAJOR === 15 && MINOR < 1) return;
 
 const als = new AsyncLocalStorage();
 let context;
