@@ -7,7 +7,8 @@ const dc = require('../dc-polyfill.js');
 const channel_name = 'test:channel';
 const published_data = 'some message';
 
-test('test-diagnostics-channel-http', (t) => {
+// broken in v20.0.0 - v20.5.1 (<v20.6)
+test('test-diagnostics-channel-sync-unsubscribe', (t) => {
   t.plan(1);
 
   const onMessageHandler = common.mustCall(() => dc.unsubscribe(channel_name, onMessageHandler));
