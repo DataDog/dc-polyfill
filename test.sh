@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 echo "Node.js version: $(node --version)"
 
 errors=0
