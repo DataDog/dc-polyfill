@@ -5,6 +5,7 @@ const common = require('./common.js');
 const dc = require('../dc-polyfill.js');
 const { MAJOR, MINOR } = require('../checks.js');
 
+// This test depends on features only available in certain versions of Node.js
 if (MAJOR < 16) return;
 if (MAJOR === 16 && MINOR < 17) return;
 if (MAJOR === 17) return;
