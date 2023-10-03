@@ -12,6 +12,8 @@ const isIncomingMessage = (object) => object instanceof http.IncomingMessage;
 const isOutgoingMessage = (object) => object instanceof http.OutgoingMessage;
 const isNetSocket = (socket) => socket instanceof net.Socket;
 
+// This test relies on features that only certain versions of Node.js provide
+
 test('test-diagnostics-channel-http', (t) => {
   t.plan(11);
   dc.subscribe('http.client.request.start', common.mustCall(({ request }) => {
