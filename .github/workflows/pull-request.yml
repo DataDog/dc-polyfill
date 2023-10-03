@@ -49,7 +49,7 @@ jobs:
     - run: npm install
     - run: npm test
 
-  limitations:
+  package_bulk:
     name: Package Bulk Limitations
     runs-on: ubuntu-latest
     - uses: actions/checkout@v2
