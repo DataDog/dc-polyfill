@@ -6,7 +6,7 @@ for i in test/*.spec.js; do
 	node "$i" || ((errors++))
 done
 
-if ((errors > 0)); then
+if [ "$errors" -gt "0" ]; then
 	echo "Encountered ${errors} test suite failures!"
 fi
 
