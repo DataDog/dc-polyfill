@@ -6,6 +6,16 @@ on:
       - main
 
 jobs:
+  package_bulk:
+    name: Package Bulk Limitations
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 20.6.1
+    - run: npm run limits
+
   test:
     name: Specific Node.js version
     runs-on: ubuntu-latest
@@ -48,13 +58,3 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install
     - run: npm test
-
-  package_bulk:
-    name: Package Bulk Limitations
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 20.6.1
-    - run: npm run limits
