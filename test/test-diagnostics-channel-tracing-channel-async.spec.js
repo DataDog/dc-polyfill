@@ -5,7 +5,7 @@ const common = require('./common.js');
 const dc = require('../dc-polyfill.js');
 const { MAJOR, MINOR } = require('../checks.js');
 
-test('test-diagnostics-channel-tracing-channel-async.spec.js', (t) => {
+test('test-diagnostics-channel-tracing-channel-async', (t) => {
   t.plan(23);
   const channel = dc.tracingChannel('test');
 

@@ -6,7 +6,7 @@ const dc = require('../dc-polyfill.js');
 test('test-diagnostics-channel-pub-sub', t => {
   const { Channel } = dc;
 
-  const name = 'test-diagnostics-channel-pub-sub';
+  const name = 'test';
   const input = {
     foo: 'bar'
   };

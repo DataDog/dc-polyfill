@@ -8,7 +8,7 @@ const test = require('tape');
 const common = require('./common.js');
 const { subscribe, unsubscribe } = require('../dc-polyfill.js');
 
-test('test-diagnostics-channel-tracing-channel-async-error', (t) => {
+test('test-diagnostics-channel-memory-leak', (t) => {
   t.plan(1);
   function noop() {}
 

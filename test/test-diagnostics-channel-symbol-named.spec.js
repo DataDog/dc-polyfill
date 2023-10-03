@@ -10,7 +10,7 @@ const input = {
 
 const symbol = Symbol('test');
 
-test('test-diagnostics-channel-http', (t) => {
+test('test-diagnostics-channel-symbol-named', (t) => {
   t.plan(3);
   // Individual channel objects can be created to avoid future lookups
   const channel = dc.channel(symbol);
