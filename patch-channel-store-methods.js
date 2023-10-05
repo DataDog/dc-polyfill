@@ -1,9 +1,11 @@
 const { ReflectApply } = require('./primordials.js');
 
-module.exports = function (dc) {
+module.exports = function (unpatched) {
   const channels = new WeakSet();
 
-  const dc_channel = dc.channel;
+  const dc_channel = unpatched.channel;
+
+  const dc = { ...unpatched };
 
   dc.channel = function() {
     const ch = dc_channel.apply(this, arguments);
@@ -48,6 +50,8 @@ module.exports = function (dc) {
 
     return ch;
   };
+
+  return dc;
 };
 
 function wrapStoreRun(store, data, next, transform = defaultTransform) {

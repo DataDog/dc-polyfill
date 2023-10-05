@@ -2,9 +2,16 @@
 // @see https://github.com/nodejs/node/pull/47520
 const PHONY_SUBSCRIBE = function AVOID_GARBAGE_COLLECTION() {};
 
-module.exports = function(dc) {
-  const dc_channel = dc.channel;
+const {
+  ObjectDefineProperty,
+  ObjectGetOwnPropertyDescriptor
+} = require('./primordials.js');
+
+module.exports = function(unpatched) {
+  const dc_channel = unpatched.channel;
   const channels = new WeakSet();
+
+  const dc = { ...unpatched };
 
   dc.channel = function() {
     const ch = dc_channel.apply(this, arguments);
@@ -15,16 +22,20 @@ module.exports = function(dc) {
 
     channels.add(ch);
 
-    Object.defineProperty(ch, 'hasSubscribers', {
-      get: function() {
-        const subscribers = ch._subscribers;
-        if (subscribers.length > 1) return true;
-        if (subscribers.length < 1) return false;
-        if (subscribers[0] === PHONY_SUBSCRIBE) return false;
-        return true;
-      },
-    });
+    if (!ObjectGetOwnPropertyDescriptor(ch, 'hasSubscribers')) {
+      ObjectDefineProperty(ch, 'hasSubscribers', {
+        get: function() {
+          const subscribers = ch._subscribers;
+          if (subscribers.length > 1) return true;
+          if (subscribers.length < 1) return false;
+          if (subscribers[0] === PHONY_SUBSCRIBE) return false;
+          return true;
+        },
+      });
+    }
 
     return ch;
   };
+
+  return dc;
 };

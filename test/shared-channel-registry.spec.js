@@ -3,6 +3,7 @@
 const path = require('path');
 const test = require('tape');
 const common = require('./common.js');
+const checks = require('../checks.js');
 
 test('shared-channel-registry', (t) => {
   t.plan(5);
@@ -23,7 +24,11 @@ test('shared-channel-registry', (t) => {
 
   const dc_v2 = require('../dc-polyfill.js');
 
-  t.notStrictEqual(dc_v1, dc_v2, 'should be two separate dc instances');
+  if (!checks.hasFullSupport()) {
+    t.notStrictEqual(dc_v1, dc_v2, 'should be two separate dc instances');
+  } else {
+    t.ok(true, 'skipping instance inequal check as this version of Node.js has full diagnostics channel support');
+  }
   t.deepEqual(Object.keys(dc_v1), Object.keys(dc_v2), 'the two instances should have the same shape');
 
   dc_v1.subscribe('foo', common.mustCall(function(msg) {

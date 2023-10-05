@@ -17,8 +17,10 @@ const traceEvents = [
   'error',
 ];
 
-module.exports = function (dc) {
-  const { channel } = dc;
+module.exports = function (unpatched) {
+  const { channel } = unpatched;
+
+  const dc = { ...unpatched };
 
   class TracingChannel {
     constructor(nameOrChannels) {
@@ -175,4 +177,6 @@ module.exports = function (dc) {
   }
 
   dc.tracingChannel = tracingChannel;
+
+  return dc;
 };
