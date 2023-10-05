@@ -2,8 +2,6 @@ const checks = require('./checks.js');
 
 require('./primordials.js');
 
-// TODO: global symbol channel registry when building from scratch
-
 const dc = checks.hasDiagnosticsChannel()
   ? require('diagnostics_channel')
   : require('./reimplementation.js');

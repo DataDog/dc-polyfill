@@ -19,6 +19,8 @@ const PromiseResolve = Promise.resolve;
 const PromisePrototypeThen = makeCall(Promise.prototype.then);
 const ArrayPrototypeSplice = makeCall(Array.prototype.splice);
 const ArrayPrototypeAt = makeCall(Array.prototype.at || arrayAtPolyfill);
+const ObjectDefineProperty = Object.defineProperty;
+const SymbolFor = Symbol.for;
 
 module.exports = {
   ReflectApply,
@@ -27,4 +29,6 @@ module.exports = {
   PromisePrototypeThen,
   ArrayPrototypeSplice,
   ArrayPrototypeAt,
+  ObjectDefineProperty,
+  SymbolFor,
 };
