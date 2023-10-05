@@ -1,3 +1,7 @@
+const util = require('util');
+
+const { ObjectDefineProperties } = require('./primordials.js');
+
 // Port from node core lib/internal/errors.js
 class ERR_INVALID_ARG_TYPE extends TypeError {
   constructor(message, actual) {
@@ -24,7 +28,7 @@ class ERR_INVALID_ARG_TYPE extends TypeError {
 
     this.code = this.constructor.name;
 
-    Object.defineProperties(this, {
+    ObjectDefineProperties(this, {
       message: {
         value: message,
         enumerable: false,

@@ -22,4 +22,4 @@ const diagnostics_channel = require('dc-polyfill');
 
 When a Pull Request is created the code runs against many different versions of Node.js. Notably, versions right before a change and versions right after a change, the first version of a release line, and the last version of a release line.
 
-Currently this module tests Node.js >= v12. If you would like to use `dc-polyfill` for versions of Node.js older than this then feel free to submit a Pull Request or open an issue.
+Currently this module tests Node.js >= v12.17. If you would like to use `dc-polyfill` for versions of Node.js older than this then feel free to submit a Pull Request or open an issue.

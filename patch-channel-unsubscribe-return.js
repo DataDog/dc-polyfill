@@ -1,3 +1,5 @@
+const { ObjectGetPrototypeOf } = require('./primordials.js');
+
 // The ch.unsubscribe() method doesn't return a value
 // Recent versions return if an unsubscribe succeeded
 // @see https://github.com/nodejs/node/pull/40433
@@ -19,7 +21,7 @@ module.exports = function (unpatched) {
 
       const oldSubscriberCount = this._subscribers.length;
 
-      ch.__proto__.unsubscribe.apply(this, arguments);
+      ObjectGetPrototypeOf(ch).unsubscribe.apply(this, arguments);
 
       return this._subscribers.length < oldSubscriberCount;
     };

@@ -20,7 +20,10 @@ const PromisePrototypeThen = makeCall(Promise.prototype.then);
 const ArrayPrototypeSplice = makeCall(Array.prototype.splice);
 const ArrayPrototypeAt = makeCall(Array.prototype.at || arrayAtPolyfill);
 const ObjectDefineProperty = Object.defineProperty;
+const ObjectDefineProperties = Object.defineProperties;
 const ObjectGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+const ObjectGetPrototypeOf = Object.getPrototypeOf;
+const ObjectSetPrototypeOf = Object.setPrototypeOf;
 const SymbolFor = Symbol.for;
 
 module.exports = {
@@ -31,6 +34,9 @@ module.exports = {
   ArrayPrototypeSplice,
   ArrayPrototypeAt,
   ObjectDefineProperty,
+  ObjectDefineProperties,
   ObjectGetOwnPropertyDescriptor,
+  ObjectGetPrototypeOf,
+  ObjectSetPrototypeOf,
   SymbolFor,
 };

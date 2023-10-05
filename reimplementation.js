@@ -1,5 +1,10 @@
 'use strict';
 
+const {
+  ObjectSetPrototypeOf,
+  ObjectGetPrototypeOf,
+} = require('./primordials.js');
+
 /**
  * This code is mostly based on the following package:
  * @see https://github.com/simon-id/diagnostics_channel-polyfill
@@ -28,7 +33,7 @@ class ActiveChannel {
     // When there are no more active subscribers, restore to fast prototype.
     if (!this._subscribers.length) {
       // eslint-disable-next-line no-use-before-define
-      Object.setPrototypeOf(this, Channel.prototype);
+      ObjectSetPrototypeOf(this, Channel.prototype);
     }
 
     return true;
@@ -59,13 +64,13 @@ class Channel {
   }
 
   static [Symbol.hasInstance](instance) {
-    const prototype = Object.getPrototypeOf(instance);
+    const prototype = ObjectGetPrototypeOf(instance);
     return prototype === Channel.prototype ||
            prototype === ActiveChannel.prototype;
   }
 
   subscribe(subscription) {
-    Object.setPrototypeOf(this, ActiveChannel.prototype);
+    ObjectSetPrototypeOf(this, ActiveChannel.prototype);
     this._subscribers = [];
     this.subscribe(subscription);
   }
