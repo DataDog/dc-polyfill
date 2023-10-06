@@ -14,7 +14,7 @@ const {
 const util = require('util');
 const { ERR_INVALID_ARG_TYPE } = require('./errors.js');
 
-const CHANNEL_REGISTRY = require('./acquire-channel-registry.js');
+const channels = require('./acquire-channel-registry.js');
 
 class ActiveChannel {
   subscribe(subscription) {
@@ -87,18 +87,18 @@ class Channel {
 }
 
 function channel(name) {
-  const channel = CHANNEL_REGISTRY[name];
+  const channel = channels[name];
   if (channel) return channel;
 
   if (typeof name !== 'string' && typeof name !== 'symbol') {
     throw new ERR_INVALID_ARG_TYPE('The "channel" argument must be one of type string or symbol', name);
   }
 
-  return CHANNEL_REGISTRY[name] = new Channel(name);
+  return channels[name] = new Channel(name);
 }
 
 function hasSubscribers(name) {
-  const channel = CHANNEL_REGISTRY[name];
+  const channel = channels[name];
   if (!channel) {
     return false;
   }
@@ -107,8 +107,8 @@ function hasSubscribers(name) {
 }
 
 function deleteChannel(name) {
-  if (CHANNEL_REGISTRY[name]) {
-    CHANNEL_REGISTRY[name] = null;
+  if (channels[name]) {
+    channels[name] = null;
     return true;
   }
 
