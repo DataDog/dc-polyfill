@@ -1,5 +1,3 @@
-#!/usr/bin/env node --expose-gc
-
 'use strict';
 
 // This test ensures that diagnostic channel references aren't leaked.
@@ -7,6 +5,11 @@
 const test = require('tape');
 const common = require('./common.js');
 const { subscribe, unsubscribe } = require('../dc-polyfill.js');
+
+const v8 = require('v8');
+v8.setFlagsFromString('--expose-gc');
+// https://github.com/nodejs/node/issues/16595#issuecomment-340288680
+global.gc = require('vm').runInNewContext('gc');
 
 test('test-diagnostics-channel-memory-leak', (t) => {
   t.plan(1);
