@@ -19,8 +19,7 @@
 
 const { ObjectDefineProperty, SymbolFor } = require('./primordials.js');
 
-// TODO: Change this string to match the package name
-const REGISTRY_SYMBOL = SymbolFor('diagnostic_channel_polyfill_v1');
+const REGISTRY_SYMBOL = SymbolFor('dcpoly-v1');
 
 if (!process[REGISTRY_SYMBOL]) {
   ObjectDefineProperty(process, REGISTRY_SYMBOL, {

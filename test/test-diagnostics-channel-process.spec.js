@@ -1,6 +1,6 @@
 'use strict';
 
-const dc = require('../dc-polyfill.js');
+const dc = require('../dcpoly.js');
 const common = require('./common.js');
 const cluster = require('cluster');
 
