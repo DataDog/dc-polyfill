@@ -8,9 +8,9 @@ const checks = require('../checks.js');
 test('shared-channel-registry', (t) => {
   t.plan(5);
 
-  const entrypoint = require.resolve(path.join(__dirname, '..', 'dc-polyfill.js'));
-  const reimpl = require.resolve(path.join(__dirname, '..', 'reimplementation.js'));
-  const acquire = require.resolve(path.join(__dirname, '..', 'acquire-channel-registry.js'));
+  const entrypoint = require.resolve('../dc-polyfill.js');
+  const reimpl = require.resolve('../reimplementation.js');
+  const acquire = require.resolve('../acquire-channel-registry.js');
 
   const dc_v1 = require('../dc-polyfill.js');
 
