@@ -1,6 +1,6 @@
 {
   "name": "dcpoly",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A polyfill for the internal diagnostics_channel module",
   "main": "dcpoly.js",
   "scripts": {
