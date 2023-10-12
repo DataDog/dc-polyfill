@@ -2,7 +2,7 @@
 
 const test = require('tape');
 const common = require('./common.js');
-const dc = require('../dc-polyfill.js');
+const dc = require('../dcpoly.js');
 const { MAJOR, MINOR } = require('../checks.js');
 
 // This test depends on features only available in certain versions of Node.js

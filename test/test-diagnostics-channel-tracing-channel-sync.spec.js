@@ -2,7 +2,7 @@
 
 const test = require('tape');
 const common = require('./common.js');
-const dc = require('../dc-polyfill.js');
+const dc = require('../dcpoly.js');
 
 test('test-diagnostics-channel-tracing-channel-sync', (t) => {
   t.plan(12);
