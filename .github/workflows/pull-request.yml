@@ -16,6 +16,32 @@ jobs:
         node-version: 20.6.1
     - run: npm run limits
 
+  package-report:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 20.6.1
+    - run: npm pack --dry-run 2>&1 | sed 's/npm notice //g'
+#    - run: |
+#        {
+#          echo 'NPM_PACK_RESULTS<<EOF'
+#          npm pack --dry-run 2>&1 | sed 's/npm notice //g' | sed 's/\$/\\n/g' | tr -d'\\n'
+#          echo EOF
+#        } >> "$GITHUB_ENV"
+#      id: packresults
+#    - uses: actions/github-script@v6
+#      with:
+#        script: |
+#          github.rest.issues.createComment({
+#            issue_number: context.issue.number,
+#            owner: context.repo.owner,
+#            repo: context.repo.repo,
+#            body: "${{ steps.packresults.outputs.NPM_PACK_RESULTS }}"
+#          })
+
+
   test:
     name: Specific Node.js version
     runs-on: ubuntu-latest

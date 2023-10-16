@@ -4,7 +4,7 @@
 
 const test = require('tape');
 const common = require('./common.js');
-const { subscribe, unsubscribe } = require('../dcpoly.js');
+const { subscribe, unsubscribe } = require('../dc-polyfill.js');
 
 const v8 = require('v8');
 v8.setFlagsFromString('--expose-gc');

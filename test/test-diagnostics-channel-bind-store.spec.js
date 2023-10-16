@@ -2,7 +2,7 @@
 
 const test = require('tape');
 const common = require('./common.js');
-const dc = require('../dcpoly.js');
+const dc = require('../dc-polyfill.js');
 const { AsyncLocalStorage } = require('async_hooks');
 
 test('test-diagnostics-channel-bind-store', t => {
