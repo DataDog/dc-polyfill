@@ -3,7 +3,7 @@
 const assert = require('assert');
 const test = require('tape');
 
-const { channel, hasSubscribers } = require('../dcpoly.js');
+const { channel, hasSubscribers } = require('../dc-polyfill.js');
 
 const { MAJOR, MINOR } = require('../checks.js');
 

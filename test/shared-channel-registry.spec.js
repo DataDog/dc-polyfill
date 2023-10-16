@@ -8,11 +8,11 @@ const checks = require('../checks.js');
 test('shared-channel-registry', (t) => {
   t.plan(5);
 
-  const entrypoint = require.resolve('../dcpoly.js');
+  const entrypoint = require.resolve('../dc-polyfill.js');
   const reimpl = require.resolve('../reimplementation.js');
   const acquire = require.resolve('../acquire-channel-registry.js');
 
-  const dc_v1 = require('../dcpoly.js');
+  const dc_v1 = require('../dc-polyfill.js');
 
   t.ok(require.cache[entrypoint], 'should find entrypoint in the require cache');
   delete require.cache[entrypoint];
@@ -22,7 +22,7 @@ test('shared-channel-registry', (t) => {
   delete require.cache[reimpl];
   delete require.cache[acquire];
 
-  const dc_v2 = require('../dcpoly.js');
+  const dc_v2 = require('../dc-polyfill.js');
 
   if (!checks.hasFullSupport()) {
     t.notStrictEqual(dc_v1, dc_v2, 'should be two separate dc instances');

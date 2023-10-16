@@ -3,7 +3,7 @@
 const test = require('tape');
 const common = require('./common.js');
 const { AsyncLocalStorage } = require('async_hooks');
-const dc = require('../dcpoly.js');
+const dc = require('../dc-polyfill.js');
 const http = require('http');
 const { MAJOR, MINOR } = require('../checks.js');
 

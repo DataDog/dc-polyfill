@@ -1,7 +1,7 @@
 'use strict';
 
 const test = require('tape');
-const dc = require('../dcpoly.js');
+const dc = require('../dc-polyfill.js');
 
 test('test-diagnostics-channel-pub-sub', t => {
   const { Channel } = dc;

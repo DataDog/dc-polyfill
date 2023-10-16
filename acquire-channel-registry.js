@@ -19,7 +19,7 @@
 
 const { ObjectDefineProperty, SymbolFor } = require('./primordials.js');
 
-const REGISTRY_SYMBOL = SymbolFor('dcpoly-v1');
+const REGISTRY_SYMBOL = SymbolFor('dc-polyfill-v1');
 
 if (!process[REGISTRY_SYMBOL]) {
   ObjectDefineProperty(process, REGISTRY_SYMBOL, {

@@ -2,7 +2,7 @@
 
 const test = require('tape');
 const common = require('./common.js');
-const dc = require('../dcpoly.js');
+const dc = require('../dc-polyfill.js');
 
 test('test-diagnostics-channel-tracing-channel-async-error', (t) => {
   t.plan(17);
