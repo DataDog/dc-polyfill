@@ -16,6 +16,14 @@
   ],
   "author": "Thomas Hunter II <tlhunter@datadog.com>",
   "license": "MIT",
+  "homepage": "https://github.com/dataDog/dcpoly/#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DataDog/dcpoly"
+  },
+  "bugs": {
+    "url": "https://github.com/DataDog/dcpoly/issues"
+  },
   "devDependencies": {
     "tape": "^5.6.6"
   },
