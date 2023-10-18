@@ -1,30 +1,42 @@
 # `dc-polyfill`: Diagnostics Channel Polyfill
 
-This package provides a polyfill (or ponyfill) for the `diagnostics_channel` core Node.js module (including `TracingChannel`) for use with older versions of Node.js. It aims to remain simple, with zero dependencies, and only taking up a few kilobytes of space.
+This package provides a polyfill (or ponyfill) for the `diagnostics_channel` core Node.js module (including `TracingChannel`) for use with older versions of Node.js. It aims to remain simple, with zero dependencies, and only takes up a few kilobytes of space.
 
-**dc-polyfill** attempts to backport every feature and bugfix that is added to Node.js core. If a feature hasn't been backported then please open a Pull Request or open an issue.
+> If your module or application uses `diagnostics_channel` and needs to run on multiple versions of Node.js then it is recommended that you use `require('dc-polyfill')` instead of `require('diagnostics_channel')`.
 
-Currently this package provides an API compatible with `diagnostics_channel` as of **Node.js v20.6**. Therefore, to view the capabilities of this package, read the [Node.js `diagnostics_channel` documentation](https://nodejs.org/dist/latest-v20.x/docs/api/diagnostics_channel.html).
+**dc-polyfill** backports features and bugfixes that are added to Node.js core. If a feature hasn't been backported then please open a Pull Request or create an issue.
 
-Whenever the currently running version of Node.js ships with `diagnostics_channel`, **dc-polyfill** will make sure to use the global registry of channels provided by the core module. However, for old versions of Node.js which lack it, **dc-polyfill** instead uses a global symbol to track the channels. This symbol will remain the same for all versions of **dc-polyfill** to avoid the issue where multiple versions of an npm library installed in a dependency hierarchy usually provide different singletons.
+Since this package recreates a Node.js API, read the [Node.js `diagnostics_channel` documentation](https://nodejs.org/dist/latest-v20.x/docs/api/diagnostics_channel.html) to understand what it does.
 
-Ideally, this package will forever remain backwards compatible, and there will never be a v2.x release.
+|                                  | Version |
+|----------------------------------|---------|
+| Oldest Supported Node.js Version | 12.17.0 |
+| Target Node.js DC API Version    | 20.6.0  |
+
+Whenever the currently running version of Node.js ships with `diagnostics_channel` (i.e. v16+, v15.14+, v14.17+), **dc-polyfill** will make sure to use the global registry of channels provided by the core module. For older versions of Node.js **dc-polyfill** instead uses its own global collection of channels. This global collection remains in the same location and is shared across all instances of **dc-polyfill**. This avoids the issue wherein multiple versions of an npm library installed in a module dependency hierarchy would otherwise provide different singleton instances.
+
+Ideally, this package will forever remain backwards compatible, there will never be a v2.x release, and there will never be an additional global channel collection.
+
 
 ## Usage
+
+Install the module in your project:
 
 ```sh
 npm install dc-polyfill
 ```
 
+Replace any existing `require('diagnostics_channel')` calls:
+
 ```javascript
 const diagnostics_channel = require('dc-polyfill');
 ```
 
+
 ## Contributing
 
-When a Pull Request is created the code runs against many different versions of Node.js. Notably, versions right before a change and versions right after a change, the first version of a release line, and the last version of a release line.
+When a Pull Request is created the test suite runs against dozens of versions of Node.js. Notably, versions right before a change and versions right after a change, the first version of a release line, and the last version of a release line. To test locally it's recommended to use a node version management tool, such as `nvm`, to test changes with.
 
-Currently this module tests Node.js >= v12.17. If you would like to use `dc-polyfill` for versions of Node.js older than this then feel free to submit a Pull Request or open an issue.
 
 ## License / Copyright
 
