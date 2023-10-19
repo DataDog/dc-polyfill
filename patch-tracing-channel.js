@@ -98,7 +98,7 @@ module.exports = function (unpatched) {
         context.error = err;
         error.publish(context);
         asyncStart.publish(context);
-        // TODO: Is there a way to have asyncEnd _after_ the continuation?
+
         asyncEnd.publish(context);
         return PromiseReject(err);
       }
@@ -106,7 +106,7 @@ module.exports = function (unpatched) {
       function resolve(result) {
         context.result = result;
         asyncStart.publish(context);
-        // TODO: Is there a way to have asyncEnd _after_ the continuation?
+
         asyncEnd.publish(context);
         return result;
       }

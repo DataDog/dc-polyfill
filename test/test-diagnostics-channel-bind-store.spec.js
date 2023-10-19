@@ -54,17 +54,18 @@ test('test-diagnostics-channel-bind-store', t => {
 
     // Should support nested contexts
     n++;
-    channel.runStores(inputs[n], common.mustCall(function() {
+    const fn = common.mustCall(()=>{});
+    channel.runStores(inputs[n], function() {
+      fn();
       // Verify this and argument forwarding
-      // TODO: For some reason `this` === `global`. Seems like a bug in common.mustCall?
-      // t.strictEqual(this, undefined);
+      t.strictEqual(this, undefined);
 
       // Verify store 1 state matches input
       t.strictEqual(store1.getStore(), inputs[n]);
 
       // Verify store 2 state has expected transformation
       t.deepEqual(store2.getStore(), { data: inputs[n] });
-    }));
+    });
     n--;
 
     // Verify store 1 state matches input
