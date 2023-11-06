@@ -21,7 +21,7 @@ function hasDiagnosticsChannel() {
 module.exports.hasDiagnosticsChannel = hasDiagnosticsChannel;
 
 function hasTopSubscribeUnsubscribe() {
-  return hasFullSupport()
+  return MAJOR >= 20
     || (MAJOR === 16 && MINOR >= 17)
     || (MAJOR === 18 && MINOR >= 7);
 }
