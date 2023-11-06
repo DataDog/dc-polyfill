@@ -38,7 +38,7 @@ function hasZeroSubscribersBug() {
 module.exports.hasZeroSubscribersBug = hasZeroSubscribersBug;
 
 function hasChannelStoreMethods() {
-  return hasFullSupport()
+  return MAJOR === 20
     || (MAJOR === 19 && MINOR >= 9);
 }
 module.exports.hasChannelStoreMethods = hasChannelStoreMethods;
