@@ -9,7 +9,7 @@ function hasFullSupport() {
 module.exports.hasFullSupport = hasFullSupport;
 
 function hasTracingChannel() {
-  return hasFullSupport();
+  return MAJOR >= 20;
 }
 module.exports.hasTracingChannel = hasTracingChannel;
 
