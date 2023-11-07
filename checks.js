@@ -9,7 +9,7 @@ function hasFullSupport() {
 module.exports.hasFullSupport = hasFullSupport;
 
 function hasTracingChannel() {
-  return hasFullSupport();
+  return MAJOR >= 20;
 }
 module.exports.hasTracingChannel = hasTracingChannel;
 
@@ -21,7 +21,7 @@ function hasDiagnosticsChannel() {
 module.exports.hasDiagnosticsChannel = hasDiagnosticsChannel;
 
 function hasTopSubscribeUnsubscribe() {
-  return hasFullSupport()
+  return MAJOR >= 20
     || (MAJOR === 16 && MINOR >= 17)
     || (MAJOR === 18 && MINOR >= 7);
 }
@@ -38,7 +38,7 @@ function hasZeroSubscribersBug() {
 module.exports.hasZeroSubscribersBug = hasZeroSubscribersBug;
 
 function hasChannelStoreMethods() {
-  return hasFullSupport()
+  return MAJOR === 20
     || (MAJOR === 19 && MINOR >= 9);
 }
 module.exports.hasChannelStoreMethods = hasChannelStoreMethods;
