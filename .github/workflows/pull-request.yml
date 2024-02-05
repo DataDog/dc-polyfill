@@ -80,6 +80,8 @@ jobs:
           - 20.5.1 # sync unsubscribe bug
           - 20.6.0 # sync unsubscribe bug fixed
           - 20.x # nothing special, full support dc, latest 20
+          - 21.0.0 # nothing special, full support dc, first 21
+          - 21.x # nothing special, full support dc, latest 21
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
