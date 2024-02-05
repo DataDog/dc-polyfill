@@ -4,7 +4,7 @@ module.exports.MINOR = MINOR;
 module.exports.PATCH = PATCH;
 
 function hasFullSupport() {
-  return MAJOR >= 20 && MINOR >= 6;
+  return MAJOR > 20 || (MAJOR >= 20 && MINOR >= 6);
 }
 module.exports.hasFullSupport = hasFullSupport;
 
@@ -38,7 +38,7 @@ function hasZeroSubscribersBug() {
 module.exports.hasZeroSubscribersBug = hasZeroSubscribersBug;
 
 function hasChannelStoreMethods() {
-  return MAJOR === 20
+  return MAJOR >= 20
     || (MAJOR === 19 && MINOR >= 9);
 }
 module.exports.hasChannelStoreMethods = hasChannelStoreMethods;
