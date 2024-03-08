@@ -8,8 +8,11 @@ function hasFullSupport() {
 }
 module.exports.hasFullSupport = hasFullSupport;
 
+// TracingChannel _did_ exist before this, but we need to replace everything
+// anyway to get early-exit support on all the trace methods.
 function hasTracingChannel() {
-  return MAJOR >= 20;
+  return MAJOR >= 22
+    || (MAJOR === 21 && MINOR >= 8);
 }
 module.exports.hasTracingChannel = hasTracingChannel;
 
