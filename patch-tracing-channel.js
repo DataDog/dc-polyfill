@@ -1,10 +1,11 @@
 const {
-  ReflectApply,
+  ArrayPrototypeAt,
+  ArrayPrototypeSplice,
+  ObjectDefineProperty,
+  PromisePrototypeThen,
   PromiseReject,
   PromiseResolve,
-  PromisePrototypeThen,
-  ArrayPrototypeSplice,
-  ArrayPrototypeAt,
+  ReflectApply,
 } = require('./primordials.js');
 
 const { ERR_INVALID_ARG_TYPE } = require('./errors.js');
@@ -17,38 +18,55 @@ const traceEvents = [
   'error',
 ];
 
+function validateFunction(func, name) {
+  if (typeof func !== 'function') {
+    throw new ERR_INVALID_ARG_TYPE(name, ['function'], func);
+  }
+}
+
+function assertChannel(value, name) {
+  if (!(value instanceof Channel)) {
+    throw new ERR_INVALID_ARG_TYPE(name, ['Channel'], value);
+  }
+}
+
 module.exports = function (unpatched) {
   const { channel } = unpatched;
 
   const dc = { ...unpatched };
 
+  function tracingChannelFrom(nameOrChannels, name) {
+    if (typeof nameOrChannels === 'string') {
+      return channel(`tracing:${nameOrChannels}:${name}`);
+    }
+
+    if (typeof nameOrChannels === 'object' && nameOrChannels !== null) {
+      const channel = nameOrChannels[name];
+      assertChannel(channel, `nameOrChannels.${name}`);
+      return channel;
+    }
+
+    throw new ERR_INVALID_ARG_TYPE('nameOrChannels',
+                                   ['string', 'object', 'TracingChannel'],
+                                   nameOrChannels);
+  }
+
   class TracingChannel {
     constructor(nameOrChannels) {
-      if (typeof nameOrChannels === 'string') {
-        this.start = channel(`tracing:${nameOrChannels}:start`);
-        this.end = channel(`tracing:${nameOrChannels}:end`);
-        this.asyncStart = channel(`tracing:${nameOrChannels}:asyncStart`);
-        this.asyncEnd = channel(`tracing:${nameOrChannels}:asyncEnd`);
-        this.error = channel(`tracing:${nameOrChannels}:error`);
-      } else if (typeof nameOrChannels === 'object') {
-        const { start, end, asyncStart, asyncEnd, error } = nameOrChannels;
-
-        // assertChannel(start, 'nameOrChannels.start');
-        // assertChannel(end, 'nameOrChannels.end');
-        // assertChannel(asyncStart, 'nameOrChannels.asyncStart');
-        // assertChannel(asyncEnd, 'nameOrChannels.asyncEnd');
-        // assertChannel(error, 'nameOrChannels.error');
-
-        this.start = start;
-        this.end = end;
-        this.asyncStart = asyncStart;
-        this.asyncEnd = asyncEnd;
-        this.error = error;
-      } else {
-        throw new ERR_INVALID_ARG_TYPE('nameOrChannels',
-                                       ['string', 'object', 'Channel'],
-                                       nameOrChannels);
+      for (const eventName of traceEvents) {
+        ObjectDefineProperty(this, eventName, {
+          __proto__: null,
+          value: tracingChannelFrom(nameOrChannels, eventName),
+        });
       }
+    }
+
+    get hasSubscribers() {
+      return this.start.hasSubscribers ||
+        this.end.hasSubscribers ||
+        this.asyncStart.hasSubscribers ||
+        this.asyncEnd.hasSubscribers ||
+        this.error.hasSubscribers;
     }
 
     subscribe(handlers) {
@@ -74,6 +92,10 @@ module.exports = function (unpatched) {
     }
 
     traceSync(fn, context = {}, thisArg, ...args) {
+      if (!this.hasSubscribers) {
+        return ReflectApply(fn, thisArg, args);
+      }
+
       const { start, end, error } = this;
 
       return start.runStores(context, () => {
@@ -92,6 +114,10 @@ module.exports = function (unpatched) {
     }
 
     tracePromise(fn, context = {}, thisArg, ...args) {
+      if (!this.hasSubscribers) {
+        return ReflectApply(fn, thisArg, args);
+      }
+
       const { start, end, asyncStart, asyncEnd, error } = this;
 
       function reject(err) {
@@ -130,6 +156,10 @@ module.exports = function (unpatched) {
     }
 
     traceCallback(fn, position = -1, context = {}, thisArg, ...args) {
+      if (!this.hasSubscribers) {
+        return ReflectApply(fn, thisArg, args);
+      }
+
       const { start, end, asyncStart, asyncEnd, error } = this;
 
       function wrappedCallback(err, res) {
@@ -153,9 +183,7 @@ module.exports = function (unpatched) {
       }
 
       const callback = ArrayPrototypeAt(args, position);
-      if (typeof callback !== 'function') {
-        throw new ERR_INVALID_ARG_TYPE('callback', ['function'], callback);
-      }
+      validateFunction(callback, 'callback');
       ArrayPrototypeSplice(args, position, 1, wrappedCallback);
 
       return start.runStores(context, () => {
