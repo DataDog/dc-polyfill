@@ -13,6 +13,8 @@ Since this package recreates a Node.js API, read the [Node.js `diagnostics_chann
 | Oldest Supported Node.js Version | 12.17.0 |
 | Target Node.js DC API Version    | 20.6.0  |
 
+> Note that `dc-polyfill` currently has the `TracingChannel#hasSubscribers` getter backported from Node.js v22 however it doesn't yet support the tracing channel early exit feature. Once that's been added we'll delete this clause and update the above table.
+
 Whenever the currently running version of Node.js ships with `diagnostics_channel` (i.e. v16+, v15.14+, v14.17+), **dc-polyfill** will make sure to use the global registry of channels provided by the core module. For older versions of Node.js **dc-polyfill** instead uses its own global collection of channels. This global collection remains in the same location and is shared across all instances of **dc-polyfill**. This avoids the issue wherein multiple versions of an npm library installed in a module dependency hierarchy would otherwise provide different singleton instances.
 
 Ideally, this package will forever remain backwards compatible, there will never be a v2.x release, and there will never be an additional global channel collection.

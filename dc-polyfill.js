@@ -30,5 +30,9 @@ if (checks.hasSyncUnsubscribeBug()) {
   dc = require('./patch-sync-unsubscribe-bug.js')(dc);
 }
 
+if (!checks.hasTracingChannelHasSubscribers()) {
+  dc = require('./patch-tracing-channel-has-subscribers.js')(dc);
+}
+
 module.exports = dc;
 
