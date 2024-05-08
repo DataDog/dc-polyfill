@@ -3,7 +3,7 @@ const test = require('tape');
 const common = require('./common.js');
 const dc = require('../dc-polyfill.js');
 const { Worker } = require('worker_threads');
-const { MAJOR, MINOR } = require('../checks.js');
+const { MAJOR } = require('../checks.js');
 
 // This test depends on features only available in certain versions of Node.js
 if (MAJOR < 19) return;

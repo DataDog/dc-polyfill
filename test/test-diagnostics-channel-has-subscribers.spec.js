@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const test = require('tape');
 
 const { channel, hasSubscribers } = require('../dc-polyfill.js');
@@ -14,7 +13,7 @@ test('test-diagnostics-channel-has-subscribers', t => {
     // TypeError: WeakRefPrototypeGet is not a function
     t.comment('SKIPPING TEST DUE TO A BUG IN THIS VERSION OF NODE.JS');
     t.end();
-    return
+    return;
   }
 
   const dc = channel('test-diagnostics-channel-has-subscribers');

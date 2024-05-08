@@ -3,19 +3,7 @@ const {
   ObjectGetPrototypeOf,
 } = require('./primordials.js');
 
-const { ERR_INVALID_ARG_TYPE } = require('./errors.js');
-
-const traceEvents = [
-  'start',
-  'end',
-  'asyncStart',
-  'asyncEnd',
-  'error',
-];
-
 module.exports = function (unpatched) {
-  const { channel } = unpatched;
-
   const dc = { ...unpatched };
 
   {

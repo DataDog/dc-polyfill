@@ -18,7 +18,7 @@ test('test-diagnostics-channel-http', (t) => {
     t.strictEqual(err, error);
   }));
 
-  channel.subscribe(common.mustCall((message, name) => {
+  channel.subscribe(common.mustCall(() => {
     throw error;
   }));
 

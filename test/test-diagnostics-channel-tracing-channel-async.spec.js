@@ -3,7 +3,7 @@
 const test = require('tape');
 const common = require('./common.js');
 const dc = require('../dc-polyfill.js');
-const { MAJOR, MINOR } = require('../checks.js');
+const { MAJOR } = require('../checks.js');
 
 test('test-diagnostics-channel-tracing-channel-async', (t) => {
   t.plan(23);

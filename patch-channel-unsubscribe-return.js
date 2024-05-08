@@ -7,7 +7,6 @@ module.exports = function (unpatched) {
   const channels = new WeakSet();
 
   const dc_channel = unpatched.channel;
-  const dc_Channel = unpatched.Channel;
 
   const dc = { ...unpatched };
 

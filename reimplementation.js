@@ -11,7 +11,6 @@ const {
  * It has been extended to support a global, cross-package-instance registry of channels
  */
 
-const util = require('util');
 const { ERR_INVALID_ARG_TYPE } = require('./errors.js');
 
 const channels = require('./acquire-channel-registry.js');
@@ -32,7 +31,7 @@ class ActiveChannel {
 
     // When there are no more active subscribers, restore to fast prototype.
     if (!this._subscribers.length) {
-      // eslint-disable-next-line no-use-before-define
+       
       ObjectSetPrototypeOf(this, Channel.prototype);
     }
 
