@@ -79,9 +79,13 @@ jobs:
           - 20.0.0 # first 20
           - 20.5.1 # sync unsubscribe bug
           - 20.6.0 # sync unsubscribe bug fixed
-          - 20.x # nothing special, full support dc, latest 20
-          - 21.0.0 # nothing special, full support dc, first 21
-          - 21.x # nothing special, full support dc, latest 21
+          - 20.x # nothing special, latest 20
+          - 20.12.x # last version without TC early exit and TC#hasSubscribers()
+          - 20.13.0 # introduces TC early exit and TC#hasSubscribers()
+          - 21.0.0 # nothing special, first 21
+          - 21.x # nothing special, latest 21
+          - 22.0.0 # introduces TC early exit and TC#hasSubscribers()
+          - 22.x # nothing special, full support DC
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
