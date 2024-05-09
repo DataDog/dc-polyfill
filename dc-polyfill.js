@@ -35,4 +35,3 @@ if (!checks.hasTracingChannelHasSubscribers()) {
 }
 
 module.exports = dc;
-
