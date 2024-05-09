@@ -16,6 +16,17 @@ jobs:
         node-version: 20.6.1
     - run: npm run limits
 
+  linter:
+    name: Code Linter
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 20.6.1
+    - run: npm install
+    - run: npm run lint
+
   package-report:
     runs-on: ubuntu-latest
     steps:

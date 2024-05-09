@@ -10,7 +10,7 @@ function getCallSite(top) {
   const err = new Error();
   Error.captureStackTrace(err, top);
   // With the V8 Error API, the stack is not formatted until it is accessed
-  err.stack; // eslint-disable-line no-unused-expressions
+  err.stack;  
   Error.prepareStackTrace = originalStackFormatter;
   return err.stack;
 }
@@ -80,7 +80,7 @@ function _mustCallInner(fn, criteria = 1, field) {
 
   mustCallChecks.push(context);
 
-  const _return = function() { // eslint-disable-line func-style
+  const _return = function() {  
     context.actual++;
     return fn.apply(this, arguments);
   };

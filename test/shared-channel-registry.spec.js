@@ -1,6 +1,5 @@
 'use strict';
 
-const path = require('path');
 const test = require('tape');
 const common = require('./common.js');
 const checks = require('../checks.js');
@@ -33,7 +32,7 @@ test('shared-channel-registry', (t) => {
 
   dc_v1.subscribe('foo', common.mustCall(function(msg) {
     t.equal(msg, 'bar');
-  }))
+  }));
 
   dc_v2.channel('foo').publish('bar');
 });
