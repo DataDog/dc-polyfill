@@ -88,7 +88,7 @@ jobs:
           - 18.x # nothing special, has dc, latest 18
           - 19.0.0 # nothing special, has dc
           - 19.8.x # nothing special, has dc
-          - 19.9.0 # https://github.com/nodejs/node/pull/47520
+          - 19.9.0 # https://github.com/nodejs/node/pull/47520 note that 19.9.0 is last and would be redundant with 19.x
           - 20.0.0 # first 20
           - 20.5.1 # sync unsubscribe bug
           - 20.6.0 # sync unsubscribe bug fixed
