@@ -8,8 +8,12 @@ function hasFullSupport() {
 }
 module.exports.hasFullSupport = hasFullSupport;
 
+// Node.js v19.9.0 has the "zero subscribers bug" which is pretty nasty.
+// for that reason we overwrite the TracingChannel implementation entirely.
 function hasTracingChannel() {
-  return MAJOR >= 20;
+  return (MAJOR >= 20)
+    // || (MAJOR === 19 && MINOR >= 9)
+    || (MAJOR === 18 && MINOR >= 19);
 }
 module.exports.hasTracingChannel = hasTracingChannel;
 
@@ -31,11 +35,6 @@ function hasGarbageCollectionBug() {
   return hasDiagnosticsChannel() && !hasFullSupport();
 }
 module.exports.hasGarbageCollectionBug = hasGarbageCollectionBug;
-
-function hasZeroSubscribersBug() {
-  return MAJOR === 19 && MINOR === 9;
-}
-module.exports.hasZeroSubscribersBug = hasZeroSubscribersBug;
 
 function hasChannelStoreMethods() {
   return MAJOR >= 20
