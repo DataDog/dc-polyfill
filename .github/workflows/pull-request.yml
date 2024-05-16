@@ -83,6 +83,8 @@ jobs:
           - 18.0.0 # introduces dc
           - 18.6.x # last without dc.subscribe/unsubscribe
           - 18.7.0 # introduces dc.subscribe/unsubscribe
+          - 18.18.x # last without TC
+          - 18.19.0 # first with TC
           - 18.x # nothing special, has dc, latest 18
           - 19.0.0 # nothing special, has dc
           - 19.8.x # nothing special, has dc
