@@ -10,7 +10,6 @@ module.exports.hasFullSupport = hasFullSupport;
 
 function hasTracingChannel() {
   return (MAJOR >= 20)
-    || (MAJOR === 19 && MINOR >= 9)
     || (MAJOR === 18 && MINOR >= 19);
 }
 module.exports.hasTracingChannel = hasTracingChannel;
