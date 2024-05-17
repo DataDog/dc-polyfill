@@ -19,7 +19,7 @@ if (!checks.hasChUnsubscribeReturn()) {
   dc = require('./patch-channel-unsubscribe-return.js')(dc);
 }
 
-if ((VERSION < 18.19) || (VERSION >= 19.0 && VERSION < 19.8)) {
+if ((!VERSION === 18.6 || 18.7) || (VERSION < 18.19) || (VERSION >= 19.0 && VERSION <= 19.8)) {
   if (!checks.hasChannelStoreMethods()) {
     dc = require('./patch-channel-store-methods.js')(dc);
   }
