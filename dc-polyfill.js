@@ -19,7 +19,7 @@ if (!checks.hasChUnsubscribeReturn()) {
   dc = require('./patch-channel-unsubscribe-return.js')(dc);
 }
 
-if (VERSION < 18.0) {
+if ((VERSION < 18.19) || (VERSION >= 19.0 && VERSION < 19.8)) {
   if (!checks.hasChannelStoreMethods()) {
     dc = require('./patch-channel-store-methods.js')(dc);
   }
@@ -37,6 +37,7 @@ if (VERSION < 18.0) {
   }
   
 } else {
+  console.log('this is not running', VERSION >= 18.0 && VERSION < 18.19)
   if (!checks.hasTracingChannel()) {
     dc = require('./patch-tracing-channel.js')(dc);
   }
@@ -53,5 +54,6 @@ if (VERSION < 18.0) {
     dc = require('./patch-channel-store-methods.js')(dc);
   }
 }
+
 
 module.exports = dc;
