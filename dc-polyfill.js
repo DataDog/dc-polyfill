@@ -18,10 +18,6 @@ if (!checks.hasChUnsubscribeReturn()) {
   dc = require('./patch-channel-unsubscribe-return.js')(dc);
 }
 
-if (!checks.hasChannelStoreMethods()) {
-  dc = require('./patch-channel-store-methods.js')(dc);
-}
-
 if (!checks.hasTracingChannel()) {
   dc = require('./patch-tracing-channel.js')(dc);
 }
@@ -32,6 +28,10 @@ if (checks.hasSyncUnsubscribeBug()) {
 
 if (!checks.hasTracingChannelHasSubscribers()) {
   dc = require('./patch-tracing-channel-has-subscribers.js')(dc);
+}
+
+if (!checks.hasChannelStoreMethods()) {
+  dc = require('./patch-channel-store-methods.js')(dc);
 }
 
 module.exports = dc;
