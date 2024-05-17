@@ -1,4 +1,5 @@
 const checks = require('./checks.js');
+const VERSION = checks.VERSION
 
 require('./primordials.js');
 
@@ -18,21 +19,39 @@ if (!checks.hasChUnsubscribeReturn()) {
   dc = require('./patch-channel-unsubscribe-return.js')(dc);
 }
 
-if (!checks.hasTracingChannel()) {
-  dc = require('./patch-tracing-channel.js')(dc);
-}
+if (VERSION < 18.0) {
+  if (!checks.hasChannelStoreMethods()) {
+    dc = require('./patch-channel-store-methods.js')(dc);
+  }
 
-if (checks.hasSyncUnsubscribeBug()) {
-  dc = require('./patch-sync-unsubscribe-bug.js')(dc);
-}
-
-if (!checks.hasTracingChannelHasSubscribers()) {
-  dc = require('./patch-tracing-channel-has-subscribers.js')(dc);
-}
-
-if (!checks.hasChannelStoreMethods()) {
-  dc = require('./patch-channel-store-methods.js')(dc);
+  if (!checks.hasTracingChannel()) {
+    dc = require('./patch-tracing-channel.js')(dc);
+  }
+  
+  if (checks.hasSyncUnsubscribeBug()) {
+    dc = require('./patch-sync-unsubscribe-bug.js')(dc);
+  }
+  
+  if (!checks.hasTracingChannelHasSubscribers()) {
+    dc = require('./patch-tracing-channel-has-subscribers.js')(dc);
+  }
+  
+} else {
+  if (!checks.hasTracingChannel()) {
+    dc = require('./patch-tracing-channel.js')(dc);
+  }
+  
+  if (checks.hasSyncUnsubscribeBug()) {
+    dc = require('./patch-sync-unsubscribe-bug.js')(dc);
+  }
+  
+  if (!checks.hasTracingChannelHasSubscribers()) {
+    dc = require('./patch-tracing-channel-has-subscribers.js')(dc);
+  }
+  
+  if (!checks.hasChannelStoreMethods()) {
+    dc = require('./patch-channel-store-methods.js')(dc);
+  }
 }
 
 module.exports = dc;
-

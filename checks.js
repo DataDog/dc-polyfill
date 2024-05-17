@@ -3,6 +3,8 @@ module.exports.MAJOR = MAJOR;
 module.exports.MINOR = MINOR;
 module.exports.PATCH = PATCH;
 
+module.exports.VERSION = `${MAJOR}.${MINOR}`
+
 function hasFullSupport() {
   return MAJOR > 20 || (MAJOR >= 20 && MINOR >= 6);
 }
