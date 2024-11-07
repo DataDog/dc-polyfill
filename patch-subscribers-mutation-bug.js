@@ -27,7 +27,10 @@ module.exports = function (unpatched) {
     };
 
     ch.unsubscribe = function () {
-      //
+      // TODO: update me
+      this._subscribers = ArrayPrototypeSlice(this._subscribers);
+
+      return subscribe.apply(this, arguments);
     };
 
     ch.publish = function () {
