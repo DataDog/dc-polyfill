@@ -3,6 +3,10 @@
   "version": "0.1.6",
   "description": "A polyfill for the internal diagnostics_channel module",
   "main": "dc-polyfill.js",
+  "exports": {
+    "require": "./dc-polyfill.js",
+    "import": "./dc-polyfill.mjs"
+  },
   "scripts": {
     "test": "./test.sh",
     "lint": "eslint .",
