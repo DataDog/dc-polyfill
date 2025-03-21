@@ -3,15 +3,30 @@ const fs = require('fs');
 const os = require('os');
 const execSync = require('child_process').execSync;
 
-test('esm', t => {
+const polyfillDir = process.cwd();
+let basedir;
+
+test('create fixture project directory', t => {
   const tmpdir = os.tmpdir();
-  const basedir = fs.mkdtempSync(`${tmpdir}/esm-`);
-  const polyfillDir = process.cwd();
+  basedir = fs.mkdtempSync(`${tmpdir}/esm-`);
   process.chdir(basedir);
   execSync('npm init -y');
   execSync('npm install ' + polyfillDir);
-  fs.writeFileSync('esm.mjs', `import { tracingChannel } from 'dc-polyfill'`);
-  t.doesNotThrow(() => execSync('node esm.mjs'));
+  execSync('cp -r ' + polyfillDir + '/test/fixtures/* .');
+  t.end();
+});
+
+test('esm default export', t => {
+  t.doesNotThrow(() => execSync('node esm-default.mjs'));
+  t.end();
+});
+
+test('esm named exports', t => {
+  t.doesNotThrow(() => execSync('node esm-named.mjs'));
+  t.end();
+});
+
+test('cleanup', t => {
   process.chdir(polyfillDir);
   execSync('rm -rf ' + basedir);
   t.end();
