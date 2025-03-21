@@ -1,12 +1,11 @@
-import * as dc from './dc-polyfill.js';
+import dcModule from './dc-polyfill.js';
 
-export default dc;
+export default dcModule;
 
-export const {
-  Channel,
-  channel,
-  hasSubscribers,
-  subscribe,
-  tracingChannel,
-  unsubscribe
-} = dc;
+// Always export all required functions, whether they exist or we need to create them
+export const Channel = dcModule.Channel;
+export const channel = dcModule.channel;
+export const hasSubscribers = dcModule.hasSubscribers;
+export const tracingChannel = dcModule.tracingChannel;
+export const subscribe = dcModule.subscribe;
+export const unsubscribe = dcModule.unsubscribe;
