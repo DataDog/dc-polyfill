@@ -48,6 +48,8 @@ module.exports = function (unpatched) {
       return run();
     };
 
+    channels.add(ch);
+
     return ch;
   };
 
