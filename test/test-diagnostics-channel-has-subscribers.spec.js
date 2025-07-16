@@ -19,7 +19,19 @@ test('test-diagnostics-channel-has-subscribers', t => {
   const dc = channel('test-diagnostics-channel-has-subscribers');
   t.ok(!hasSubscribers('test-diagnostics-channel-has-subscribers'));
 
-  dc.subscribe(() => {});
+  const handler = () => {}
+  dc.subscribe(handler);
   t.ok(hasSubscribers('test-diagnostics-channel-has-subscribers'));
+
+  dc.unsubscribe(handler);
+  t.ok(!hasSubscribers('test-diagnostics-channel-has-subscribers'));
+
+  const store = {}
+  dc.bindStore(store);
+  t.ok(hasSubscribers('test-diagnostics-channel-has-subscribers'));
+
+  dc.unbindStore(store);
+  t.ok(!hasSubscribers('test-diagnostics-channel-has-subscribers'));
+
   t.end();
 });
