@@ -27,7 +27,9 @@ module.exports = function(unpatched) {
         get: function() {
           const subscribers = ch._subscribers;
           if (subscribers.length > 1) return true;
-          if (subscribers.length < 1) return false;
+          const stores = ch._stores;
+          if (stores.size > 0) return true;
+          if (subscribers.length < 1 ) return false;
           if (subscribers[0] === PHONY_SUBSCRIBE) return false;
           return true;
         },
