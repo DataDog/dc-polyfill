@@ -1,4 +1,8 @@
-const { ReflectApply } = require('./primordials.js');
+const { 
+  ReflectApply,
+  ObjectDefineProperty,
+  ObjectGetOwnPropertyDescriptor
+} = require('./primordials.js');
 
 module.exports = function (unpatched) {
   const channels = new WeakSet();
@@ -47,6 +51,14 @@ module.exports = function (unpatched) {
 
       return run();
     };
+
+    if (!ObjectGetOwnPropertyDescriptor(ch, 'hasSubscribers')) {
+      ObjectDefineProperty(ch, 'hasSubscribers', {
+        get: function() {
+            return this.__proto__.hasSubscribers || ch._stores.size > 0;
+          }
+      });
+    }
 
     channels.add(ch);
 
