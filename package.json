@@ -1,6 +1,6 @@
 {
   "name": "dc-polyfill",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A polyfill for the internal diagnostics_channel module",
   "main": "dc-polyfill.js",
   "exports": {
