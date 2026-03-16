@@ -10,8 +10,8 @@ jobs:
     name: Package Bulk Limitations
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+    - uses: actions/setup-node@f1f314fca9dfce2769ece7d933488f076716723e # v1.4.6
       with:
         node-version: 20.6.1
     - run: npm run limits
@@ -20,8 +20,8 @@ jobs:
     name: Code Linter
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+    - uses: actions/setup-node@f1f314fca9dfce2769ece7d933488f076716723e # v1.4.6
       with:
         node-version: 20.6.1
     - run: npm install
@@ -30,8 +30,8 @@ jobs:
   package-report:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+    - uses: actions/setup-node@f1f314fca9dfce2769ece7d933488f076716723e # v1.4.6
       with:
         node-version: 20.6.1
     - run: npm pack --dry-run 2>&1 | sed 's/npm notice //g'
@@ -100,8 +100,8 @@ jobs:
           - 22.0.0 # introduces TC early exit and TC#hasSubscribers()
           - 22.x # nothing special, full support DC
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+    - uses: actions/setup-node@f1f314fca9dfce2769ece7d933488f076716723e # v1.4.6
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
