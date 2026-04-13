@@ -24,7 +24,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 20.6.1
-    - run: npm install
+    - run: npm ci
     - run: npm run lint
 
   package-report:
@@ -104,5 +104,5 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
+    - run: npm ci
     - run: npm test
