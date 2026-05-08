@@ -56,9 +56,9 @@ function hasSyncUnsubscribeBug() {
 }
 module.exports.hasSyncUnsubscribeBug = hasSyncUnsubscribeBug;
 
-// if there is a TracingChannel#hasSubscribers() getter
+// if there is a TracingChannel#hasSubscribers() getter and the trace*()
+// early-exit when no subscribers — both shipped in the same Node PR.
 // @see https://github.com/nodejs/node/pull/51915
-// TODO: note that we still need to add the TC early exit from this same version
 function hasTracingChannelHasSubscribers() {
   return MAJOR >= 22
     || (MAJOR == 20 && MINOR >= 13);

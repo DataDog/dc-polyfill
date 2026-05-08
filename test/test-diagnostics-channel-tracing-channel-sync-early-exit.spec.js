@@ -5,9 +5,7 @@ const common = require('./common.js');
 const dc = require('../dc-polyfill.js');
 
 test('test-diagnostics-channel-tracing-channel-sync-early-exit', (t) => {
-  t.plan(0);
-
-  const channel = dc.tracingChannel('test');
+  const channel = dc.tracingChannel('test-early-exit-sync');
 
   const handlers = {
     start: common.mustNotCall(),
@@ -22,4 +20,6 @@ test('test-diagnostics-channel-tracing-channel-sync-early-exit', (t) => {
   channel.traceSync(() => {
     channel.subscribe(handlers);
   }, {});
+
+  t.end();
 });

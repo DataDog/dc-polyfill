@@ -73,8 +73,30 @@ module.exports = function (unpatched) {
       return done;
     }
 
+    get hasSubscribers() {
+      const { start, end, asyncStart, asyncEnd, error } = this;
+      return start.hasSubscribers
+        || end.hasSubscribers
+        || asyncStart.hasSubscribers
+        || asyncEnd.hasSubscribers
+        || error.hasSubscribers;
+    }
+
+    // Each trace* method opens with an inline early-exit matching native
+    // Node >= 22 / >= 20.13: when no channel has subscribers, skip tracing
+    // and invoke fn directly. Per native semantics, this intentionally
+    // bypasses traceCallback's callback validation and tracePromise's
+    // thenable coercion. @see https://github.com/nodejs/node/pull/51915
+
     traceSync(fn, context = {}, thisArg, ...args) {
-      const { start, end, error } = this;
+      const { start, end, asyncStart, asyncEnd, error } = this;
+      if (!(start.hasSubscribers
+          || end.hasSubscribers
+          || asyncStart.hasSubscribers
+          || asyncEnd.hasSubscribers
+          || error.hasSubscribers)) {
+        return ReflectApply(fn, thisArg, args);
+      }
 
       return start.runStores(context, () => {
         try {
@@ -93,6 +115,13 @@ module.exports = function (unpatched) {
 
     tracePromise(fn, context = {}, thisArg, ...args) {
       const { start, end, asyncStart, asyncEnd, error } = this;
+      if (!(start.hasSubscribers
+          || end.hasSubscribers
+          || asyncStart.hasSubscribers
+          || asyncEnd.hasSubscribers
+          || error.hasSubscribers)) {
+        return ReflectApply(fn, thisArg, args);
+      }
 
       function reject(err) {
         context.error = err;
@@ -131,6 +160,13 @@ module.exports = function (unpatched) {
 
     traceCallback(fn, position = -1, context = {}, thisArg, ...args) {
       const { start, end, asyncStart, asyncEnd, error } = this;
+      if (!(start.hasSubscribers
+          || end.hasSubscribers
+          || asyncStart.hasSubscribers
+          || asyncEnd.hasSubscribers
+          || error.hasSubscribers)) {
+        return ReflectApply(fn, thisArg, args);
+      }
 
       function wrappedCallback(err, res) {
         if (err) {
