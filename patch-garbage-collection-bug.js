@@ -1,16 +1,5 @@
 // There's a bug where a newly created channel is immediately garbage collected
 // @see https://github.com/nodejs/node/pull/47520
-//
-// The phony subscriber below keeps a created channel alive, but Node's channel(name)
-// can still return a brand-new Channel object for the same name on a subsequent call
-// (observed on Node 18 under certain workloads). A WeakSet keyed by Channel-object
-// identity can't merge those — each new object is treated as new and gets its own
-// phony subscriber. Callers that captured the earlier Channel in a closure end up
-// publishing to a different object than later subscribe()-ers attach to.
-//
-// To make channel identity stable per name (the contract callers expect), memoize
-// dc.channel(name) by name and short-circuit before delegating to the underlying
-// channel() on subsequent calls.
 const PHONY_SUBSCRIBE = function AVOID_GARBAGE_COLLECTION() {};
 
 const {
