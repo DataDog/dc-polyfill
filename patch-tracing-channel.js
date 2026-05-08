@@ -87,14 +87,12 @@ module.exports = function (unpatched) {
     // and invoke fn directly. Per native semantics, this intentionally
     // bypasses traceCallback's callback validation and tracePromise's
     // thenable coercion. @see https://github.com/nodejs/node/pull/51915
+    // Each method only checks the channels it would publish to, preserving
+    // backward compat with partial object-form TracingChannels.
 
     traceSync(fn, context = {}, thisArg, ...args) {
-      const { start, end, asyncStart, asyncEnd, error } = this;
-      if (!(start.hasSubscribers
-          || end.hasSubscribers
-          || asyncStart.hasSubscribers
-          || asyncEnd.hasSubscribers
-          || error.hasSubscribers)) {
+      const { start, end, error } = this;
+      if (!(start.hasSubscribers || end.hasSubscribers || error.hasSubscribers)) {
         return ReflectApply(fn, thisArg, args);
       }
 
