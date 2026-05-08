@@ -10,11 +10,15 @@ const {
 module.exports = function(unpatched) {
   const dc_channel = unpatched.channel;
   const channels = new WeakSet();
+  const byName = new Map();
 
   const dc = { ...unpatched };
 
   dc.channel = function() {
+    const name = arguments[0];
+    if (byName.has(name)) return byName.get(name);
     const ch = dc_channel.apply(this, arguments);
+    byName.set(name, ch);
 
     if (channels.has(ch)) return ch;
 
