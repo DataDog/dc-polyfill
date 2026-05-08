@@ -14,6 +14,9 @@ function arrayAtPolyfill(n) {
 }
 
 const ReflectApply = Reflect.apply;
+// Tamper-resistant `fn.call(thisArg, ...rest)`. Survives userland setting
+// `userFn.call = null` or `Function.prototype.call = null` after this load.
+const FunctionPrototypeCallApply = Function.prototype.call.bind(Function.prototype.call);
 const PromiseReject = Promise.reject.bind(Promise);
 const PromiseResolve = Promise.resolve;
 const PromisePrototypeThen = makeCall(Promise.prototype.then);
@@ -28,6 +31,7 @@ const SymbolFor = Symbol.for;
 
 module.exports = {
   ReflectApply,
+  FunctionPrototypeCallApply,
   PromiseReject,
   PromiseResolve,
   PromisePrototypeThen,

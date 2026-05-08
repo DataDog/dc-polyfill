@@ -74,12 +74,15 @@ module.exports = function (unpatched) {
     }
 
     get hasSubscribers() {
+      // Null-safe: partial object-form TracingChannels (e.g. {start, end, error})
+      // are accepted by the constructor above, so missing async channels must
+      // not crash this probe.
       const { start, end, asyncStart, asyncEnd, error } = this;
-      return start.hasSubscribers
-        || end.hasSubscribers
-        || asyncStart.hasSubscribers
-        || asyncEnd.hasSubscribers
-        || error.hasSubscribers;
+      return (start && start.hasSubscribers)
+        || (end && end.hasSubscribers)
+        || (asyncStart && asyncStart.hasSubscribers)
+        || (asyncEnd && asyncEnd.hasSubscribers)
+        || (error && error.hasSubscribers);
     }
 
     // Each trace* method opens with an inline early-exit matching native

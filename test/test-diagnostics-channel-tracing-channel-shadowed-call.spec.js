@@ -1,9 +1,5 @@
 'use strict';
 
-// Regression: trace*() must not dispatch through user-controlled fn.call.
-// A function with `f.call = null` would crash a `fn.call(...)` based wrapper
-// but native and the polyfill use Reflect.apply / primordials.
-
 const test = require('tape');
 const dc = require('../dc-polyfill.js');
 

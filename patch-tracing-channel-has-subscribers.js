@@ -1,12 +1,9 @@
 const {
   ReflectApply,
+  FunctionPrototypeCallApply,
   ObjectDefineProperty,
   ObjectGetPrototypeOf,
 } = require('./primordials.js');
-
-// Tamper-resistant equivalent of `fn.call(thisArg, ...rest)`.
-// Survives `userFn.call = null` and `Function.prototype.call = null` poisoning.
-const uncurriedCall = Function.prototype.call.bind(Function.prototype.call);
 
 module.exports = function (unpatched) {
   const dc = { ...unpatched };
@@ -37,17 +34,17 @@ module.exports = function (unpatched) {
       protoTrCh.traceSync = function (fn, context, thisArg, a, b, c) {
         const argc = arguments.length;
         if (!this.hasSubscribers) {
-          if (argc <= 3) return uncurriedCall(fn, thisArg);
-          if (argc === 4) return uncurriedCall(fn, thisArg, a);
-          if (argc === 5) return uncurriedCall(fn, thisArg, a, b);
-          if (argc === 6) return uncurriedCall(fn, thisArg, a, b, c);
+          if (argc <= 3) return FunctionPrototypeCallApply(fn, thisArg);
+          if (argc === 4) return FunctionPrototypeCallApply(fn, thisArg, a);
+          if (argc === 5) return FunctionPrototypeCallApply(fn, thisArg, a, b);
+          if (argc === 6) return FunctionPrototypeCallApply(fn, thisArg, a, b, c);
           return ReflectApply(fn, thisArg, sliceFrom(arguments, 3));
         }
-        if (argc <= 3) return uncurriedCall(origTraceSync, this, fn, context, thisArg);
-        if (argc === 4) return uncurriedCall(origTraceSync, this, fn, context, thisArg, a);
-        if (argc === 5) return uncurriedCall(origTraceSync, this, fn, context, thisArg, a, b);
-        if (argc === 6) return uncurriedCall(origTraceSync, this, fn, context, thisArg, a, b, c);
-        return ReflectApply(origTraceSync, this, copyAll(arguments));
+        if (argc <= 3) return FunctionPrototypeCallApply(origTraceSync, this, fn, context, thisArg);
+        if (argc === 4) return FunctionPrototypeCallApply(origTraceSync, this, fn, context, thisArg, a);
+        if (argc === 5) return FunctionPrototypeCallApply(origTraceSync, this, fn, context, thisArg, a, b);
+        if (argc === 6) return FunctionPrototypeCallApply(origTraceSync, this, fn, context, thisArg, a, b, c);
+        return ReflectApply(origTraceSync, this, sliceFrom(arguments, 0));
       };
     }
 
@@ -56,17 +53,17 @@ module.exports = function (unpatched) {
       protoTrCh.tracePromise = function (fn, context, thisArg, a, b, c) {
         const argc = arguments.length;
         if (!this.hasSubscribers) {
-          if (argc <= 3) return uncurriedCall(fn, thisArg);
-          if (argc === 4) return uncurriedCall(fn, thisArg, a);
-          if (argc === 5) return uncurriedCall(fn, thisArg, a, b);
-          if (argc === 6) return uncurriedCall(fn, thisArg, a, b, c);
+          if (argc <= 3) return FunctionPrototypeCallApply(fn, thisArg);
+          if (argc === 4) return FunctionPrototypeCallApply(fn, thisArg, a);
+          if (argc === 5) return FunctionPrototypeCallApply(fn, thisArg, a, b);
+          if (argc === 6) return FunctionPrototypeCallApply(fn, thisArg, a, b, c);
           return ReflectApply(fn, thisArg, sliceFrom(arguments, 3));
         }
-        if (argc <= 3) return uncurriedCall(origTracePromise, this, fn, context, thisArg);
-        if (argc === 4) return uncurriedCall(origTracePromise, this, fn, context, thisArg, a);
-        if (argc === 5) return uncurriedCall(origTracePromise, this, fn, context, thisArg, a, b);
-        if (argc === 6) return uncurriedCall(origTracePromise, this, fn, context, thisArg, a, b, c);
-        return ReflectApply(origTracePromise, this, copyAll(arguments));
+        if (argc <= 3) return FunctionPrototypeCallApply(origTracePromise, this, fn, context, thisArg);
+        if (argc === 4) return FunctionPrototypeCallApply(origTracePromise, this, fn, context, thisArg, a);
+        if (argc === 5) return FunctionPrototypeCallApply(origTracePromise, this, fn, context, thisArg, a, b);
+        if (argc === 6) return FunctionPrototypeCallApply(origTracePromise, this, fn, context, thisArg, a, b, c);
+        return ReflectApply(origTracePromise, this, sliceFrom(arguments, 0));
       };
     }
 
@@ -75,17 +72,17 @@ module.exports = function (unpatched) {
       protoTrCh.traceCallback = function (fn, position, context, thisArg, a, b, c) {
         const argc = arguments.length;
         if (!this.hasSubscribers) {
-          if (argc <= 4) return uncurriedCall(fn, thisArg);
-          if (argc === 5) return uncurriedCall(fn, thisArg, a);
-          if (argc === 6) return uncurriedCall(fn, thisArg, a, b);
-          if (argc === 7) return uncurriedCall(fn, thisArg, a, b, c);
+          if (argc <= 4) return FunctionPrototypeCallApply(fn, thisArg);
+          if (argc === 5) return FunctionPrototypeCallApply(fn, thisArg, a);
+          if (argc === 6) return FunctionPrototypeCallApply(fn, thisArg, a, b);
+          if (argc === 7) return FunctionPrototypeCallApply(fn, thisArg, a, b, c);
           return ReflectApply(fn, thisArg, sliceFrom(arguments, 4));
         }
-        if (argc <= 4) return uncurriedCall(origTraceCallback, this, fn, position, context, thisArg);
-        if (argc === 5) return uncurriedCall(origTraceCallback, this, fn, position, context, thisArg, a);
-        if (argc === 6) return uncurriedCall(origTraceCallback, this, fn, position, context, thisArg, a, b);
-        if (argc === 7) return uncurriedCall(origTraceCallback, this, fn, position, context, thisArg, a, b, c);
-        return ReflectApply(origTraceCallback, this, copyAll(arguments));
+        if (argc <= 4) return FunctionPrototypeCallApply(origTraceCallback, this, fn, position, context, thisArg);
+        if (argc === 5) return FunctionPrototypeCallApply(origTraceCallback, this, fn, position, context, thisArg, a);
+        if (argc === 6) return FunctionPrototypeCallApply(origTraceCallback, this, fn, position, context, thisArg, a, b);
+        if (argc === 7) return FunctionPrototypeCallApply(origTraceCallback, this, fn, position, context, thisArg, a, b, c);
+        return ReflectApply(origTraceCallback, this, sliceFrom(arguments, 0));
       };
     }
   }
@@ -97,12 +94,5 @@ function sliceFrom(argsLike, from) {
   const len = argsLike.length;
   const out = new Array(len - from);
   for (let i = from; i < len; i++) out[i - from] = argsLike[i];
-  return out;
-}
-
-function copyAll(argsLike) {
-  const len = argsLike.length;
-  const out = new Array(len);
-  for (let i = 0; i < len; i++) out[i] = argsLike[i];
   return out;
 }
