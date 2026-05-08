@@ -6,7 +6,7 @@
 
 - Push access to `main` on this repository.
 - The [`gh`](https://cli.github.com/) CLI, authenticated against `DataDog/dc-polyfill`.
-- Log in to an npm account with publish access to `dc-polyfill`. Check with `npm whoami`; run `npm login` if needed. If you don't have publish access, ask an existing maintainer.
+- Log in to the npm account with publish access to `dc-polyfill`. Check with `npm whoami`; run `npm login` if needed. If you don't have publish access, ask an existing maintainer.
 
 ## Cutting a release
 
