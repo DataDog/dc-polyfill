@@ -24,6 +24,11 @@ if (!checks.hasChannelStoreMethods()) {
 
 if (!checks.hasTracingChannel()) {
   dc = require('./patch-tracing-channel.js')(dc);
+} else if (checks.hasGarbageCollectionBug()) {
+  // Native tracingChannel exists but the underlying channel() registry is
+  // unstable; memoize tracingChannel by name so its sub-channel identities stay
+  // stable across calls.
+  dc = require('./patch-tracing-channel-stable-identity.js')(dc);
 }
 
 if (checks.hasSyncUnsubscribeBug()) {
