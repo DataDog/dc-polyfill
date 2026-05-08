@@ -15,11 +15,14 @@ module.exports = function (unpatched) {
 
     ObjectDefineProperty(protoTrCh, 'hasSubscribers', {
       get: function () {
-        return this.start.hasSubscribers
-          || this.end.hasSubscribers
-          || this.asyncStart.hasSubscribers
-          || this.asyncEnd.hasSubscribers
-          || this.error.hasSubscribers;
+        // Null-safe: this patch is also applied on top of the JS polyfill on
+        // older Node, where partial object-form TracingChannels are accepted.
+        const { start, end, asyncStart, asyncEnd, error } = this;
+        return (start && start.hasSubscribers)
+          || (end && end.hasSubscribers)
+          || (asyncStart && asyncStart.hasSubscribers)
+          || (asyncEnd && asyncEnd.hasSubscribers)
+          || (error && error.hasSubscribers);
       },
       configurable: true
     });
