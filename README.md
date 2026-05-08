@@ -40,6 +40,11 @@ const diagnostics_channel = require('dc-polyfill');
 When a Pull Request is created the test suite runs against dozens of versions of Node.js. Notably, versions right before a change and versions right after a change, the first version of a release line, and the last version of a release line. To test locally it's recommended to use a node version management tool, such as `nvm`, to test changes with.
 
 
+## Releasing
+
+See [RELEASING.md](RELEASING.md) for the steps to publish a new version of `dc-polyfill` to npm.
+
+
 ## License / Copyright
 
 See [LICENSE.txt](LICENSE.txt) for full details.
