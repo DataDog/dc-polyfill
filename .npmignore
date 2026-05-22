@@ -4,3 +4,4 @@ test.sh
 limitation.js
 eslint*
 *.sw?
+*.md
