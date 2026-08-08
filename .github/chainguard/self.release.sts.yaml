@@ -1,0 +1,13 @@
+# Docs: https://datadoghq.atlassian.net/wiki/spaces/SECENG/pages/5138645099/User+guide+dd-octo-sts
+issuer: https://token.actions.githubusercontent.com
+
+subject: repo:DataDog/dc-polyfill:ref:refs/heads/main
+
+claim_pattern:
+  event_name: workflow_dispatch
+  job_workflow_ref: DataDog/dc-polyfill/\.github/workflows/release\.yml@refs/heads/main
+  ref: refs/heads/main
+  repository: DataDog/dc-polyfill
+
+permissions:
+  contents: write
