@@ -42,5 +42,34 @@
   },
   "engines": {
     "node": ">=12.17"
+  },
+  "overrides": {
+    "eslint": {
+      "@eslint/config-array": {
+        "minimatch": {
+          "brace-expansion": "^1.1.21"
+        }
+      },
+      "@eslint/eslintrc": {
+        "minimatch": {
+          "brace-expansion": "^1.1.21"
+        }
+      },
+      "minimatch": {
+        "brace-expansion": "^1.1.21"
+      }
+    },
+    "tape": {
+      "dotignore": {
+        "minimatch": {
+          "brace-expansion": "^1.1.21"
+        }
+      },
+      "glob": {
+        "minimatch": {
+          "brace-expansion": "^1.1.21"
+        }
+      }
+    }
   }
 }
